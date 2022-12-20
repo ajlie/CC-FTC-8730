@@ -174,6 +174,31 @@ public class Autonomous extends LinearOpMode {
         m3.setPower(0);
         m4.setPower(0);
     }
+    public void drivebackward(int inches) {
+        int ticks = (int) (inches * (1440 / 3.75));
+        m1.setTargetPosition(-ticks);
+        m2.setTargetPosition(-ticks);
+        m3.setTargetPosition(-ticks);
+        m4.setTargetPosition(-ticks);
+        m1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        m2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        m3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        m4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        m1.setPower(1);
+        m2.setPower(1);
+        m3.setPower(1);
+        m4.setPower(1);
+        int pauseTime = (int) (inches * 100);
+        sleep(pauseTime);
+        m1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m1.setPower(0);
+        m2.setPower(0);
+        m3.setPower(0);
+        m4.setPower(0);
+    }
     /*public void forward(int position){
 
         m1.setTargetPosition(position);
@@ -232,7 +257,7 @@ public class Autonomous extends LinearOpMode {
         m2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }*/
+    }
     public void StrafeDrive(String direction,
                             int time, double speed){
         if (direction.equals("left")){
@@ -306,7 +331,7 @@ public class Autonomous extends LinearOpMode {
             m4.setPower(speed);
             sleep(time);
         }
-    }
+    }*/
 
 
 
