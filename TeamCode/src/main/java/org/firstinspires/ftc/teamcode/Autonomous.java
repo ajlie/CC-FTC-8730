@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -10,9 +9,8 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
  * Example OpMode. Demonstrates use of gyro, color sensor, encoders, and telemetry.
  *
  */
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "BlueLeft", group = "MecanumBot")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Autonomous", group = "MecanumBot")
 public class Autonomous extends LinearOpMode {
-
     DcMotor m1, m2, m3, m4;
     @Override
     public void runOpMode(){
@@ -33,11 +31,11 @@ public class Autonomous extends LinearOpMode {
                 m3.getCurrentPosition(),
                 m4.getCurrentPosition());
         telemetry.update();
-
-        DistanceSensor frontDistance = hardwareMap.get(DistanceSensor.class, "front_distance");
-        DistanceSensor leftDistance = hardwareMap.get(DistanceSensor.class, "left_distance");
-        DistanceSensor rightDistance = hardwareMap.get(DistanceSensor.class, "right_distance");
-        DistanceSensor backDistance = hardwareMap.get(DistanceSensor.class, "back_distance");
+//
+//        DistanceSensor frontDistance = hardwareMap.get(DistanceSensor.class, "front_distance");
+//        DistanceSensor leftDistance = hardwareMap.get(DistanceSensor.class, "left_distance");
+//        DistanceSensor rightDistance = hardwareMap.get(DistanceSensor.class, "right_distance");
+//        DistanceSensor backDistance = hardwareMap.get(DistanceSensor.class, "back_distance");
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -56,11 +54,9 @@ public class Autonomous extends LinearOpMode {
 
         waitForStart();
 //first and third moves it right, second and fourth moves it left
-        driveforward(15);
-        driveleft(15);
         driveright(30);
-
-
+        driveleft(30);
+        driveforward(24);
 
 
 
@@ -155,6 +151,31 @@ public class Autonomous extends LinearOpMode {
         m2.setTargetPosition(ticks);
         m3.setTargetPosition(-ticks);
         m4.setTargetPosition(ticks);
+        m1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        m2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        m3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        m4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        m1.setPower(1);
+        m2.setPower(1);
+        m3.setPower(1);
+        m4.setPower(1);
+        int pauseTime = (int) (inches * 100);
+        sleep(pauseTime);
+        m1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m1.setPower(0);
+        m2.setPower(0);
+        m3.setPower(0);
+        m4.setPower(0);
+    }
+    public void drivebackwards (int inches) {
+        int ticks = (int) (inches * (1440 / 3.75));
+        m1.setTargetPosition(-ticks);
+        m2.setTargetPosition(-ticks);
+        m3.setTargetPosition(-ticks);
+        m4.setTargetPosition(-ticks);
         m1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         m2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         m3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
