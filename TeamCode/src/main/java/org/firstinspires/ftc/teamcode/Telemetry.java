@@ -31,12 +31,12 @@ public class Telemetry extends LinearOpMode {
         m3 = hardwareMap.dcMotor.get("front_right_motor");
         m4 = hardwareMap.dcMotor.get("back_right_motor");
         mlift = hardwareMap.dcMotor.get("lift_motor");
-        scissorsLeft = hardwareMap.servo.get("scissorsLeft");
-        scissorsRight = hardwareMap.servo.get("scissorsRight");
+        //scissorsLeft = hardwareMap.servo.get("scissorsLeft");
+        //scissorsRight = hardwareMap.servo.get("scissorsRight");
 
         m1.setDirection(DcMotor.Direction.REVERSE);
         m2.setDirection(DcMotor.Direction.REVERSE);
-        scissorsLeft.setDirection(Servo.Direction.REVERSE);
+        //scissorsLeft.setDirection(Servo.Direction.REVERSE);
         m1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -85,15 +85,23 @@ public class Telemetry extends LinearOpMode {
             m3.setPower(p3);
             m4.setPower(p4);
 
+            if (gamepad2.dpad_up) {
+                //armMotor.setTargetPosition(tierOne);
+                mlift.setPower(1);
+            } else {
+                mlift.setPower(0);
+            }
+
+            if (gamepad2.dpad_down) {
+                //armMotor.setTargetPosition(tierTwo);
+                mlift.setPower(-1);
+            } else {
+                mlift.setPower(0);
+            }
         }
 
-        if (gamepad2.right_trigger > 0.5) {
-            //armMotor.setTargetPosition(tierOne);
-            mlift.setPower(1);
-        } else if (gamepad2.left_trigger > 0.5) {
-            //armMotor.setTargetPosition(tierTwo);
-            mlift.setPower(-1);
-        }
+
+        /*
         if (gamepad2.right_bumper) {
             scissorsLeft.setPosition(0.4);
             scissorsRight.setPosition(0.4);
@@ -102,6 +110,8 @@ public class Telemetry extends LinearOpMode {
             scissorsLeft.setPosition(0);
             scissorsRight.setPosition(0);
         }
+        */
+
 
 
         //telemetry.addData("Color","R %d  G %d  B %d", colorSensor.red(), colorSensor.green(), colorSensor.blue());

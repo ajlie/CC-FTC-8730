@@ -1,16 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 /**
  * Example OpMode. Demonstrates use of gyro, color sensor, encoders, and telemetry.
  *
  */
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Autonomous", group = "MecanumBot")
-public class Autonomous extends LinearOpMode {
+public class AutonomousRight extends LinearOpMode {
     DcMotor m1, m2, m3, m4;
     @Override
     public void runOpMode(){
@@ -48,7 +46,7 @@ public class Autonomous extends LinearOpMode {
         parameters.loggingTag = "Who cares.";
         imu.initialize(parameters);
 
-        ColorSensor colorSensor = hardwareMap.colorSensor.get("color_sensor");
+        //ColorSensor colorSensor = hardwareMap.colorSensor.get("color_sensor");
         telemetry.addData("Press Start When Ready","");
         telemetry.update();
 
