@@ -170,7 +170,9 @@ public class Autonomous extends LinearOpMode {
         m3.setPower(0);
         m4.setPower(0);
     }
-    public void drivebackwards (int inches) {
+
+    public void drivebackward(int inches) {
+
         int ticks = (int) (inches * (1440 / 3.75));
         m1.setTargetPosition(-ticks);
         m2.setTargetPosition(-ticks);
@@ -253,7 +255,7 @@ public class Autonomous extends LinearOpMode {
         m2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }*/
+    }
     public void StrafeDrive(String direction,
                             int time, double speed){
         if (direction.equals("left")){
@@ -327,7 +329,7 @@ public class Autonomous extends LinearOpMode {
             m4.setPower(speed);
             sleep(time);
         }
-    }
+    }*/
 
 
 
