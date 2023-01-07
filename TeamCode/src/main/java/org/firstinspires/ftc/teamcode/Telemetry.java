@@ -45,6 +45,7 @@ public class Telemetry extends LinearOpMode {
         m2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         m3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         m4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mlift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 //        DistanceSensor frontDistance = hardwareMap.get(DistanceSensor.class, "front_distance");
 //        DistanceSensor leftDistance = hardwareMap.get(DistanceSensor.class, "left_distance");
@@ -65,26 +66,35 @@ public class Telemetry extends LinearOpMode {
         //ColorSensor colorSensor = hardwareMap.colorSensor.get("color_sensor");
         telemetry.addData("Press Start When Ready","");
         telemetry.update();
-
         waitForStart();
         while (opModeIsActive()) {
             //set buttons to a variable
             double px = gamepad1.left_stick_x;
             double py = -gamepad1.left_stick_y;
-            double pa = gamepad1.right_stick_x;
+            double pa = -gamepad1.right_stick_x;
 
             //calculate inputs from joystick
             double p1 = -px + py - pa;
             double p2 = px + py + -pa;
             double p3 = -px + py + pa;
             double p4 = px + py + pa;
-
-            //set power for each motor
-            m1.setPower(p1);
-            m2.setPower(p2);
-            m3.setPower(p3);
-            m4.setPower(p4);
-
+            if (gamepad1.a) {
+                //set power for each motor
+                m1.setPower(p1);
+                m2.setPower(p2);
+                m3.setPower(p3);
+                m4.setPower(p4);
+            } else if (gamepad1.b) {
+                m1.setPower(p1/4);
+                m2.setPower(p2/4);
+                m3.setPower(p3/4);
+                m4.setPower(p4/4);
+            } else {
+                m1.setPower(p1/2);
+                m2.setPower(p2/2);
+                m3.setPower(p3/2);
+                m4.setPower(p4/2);
+            }
             if (gamepad2.dpad_up) {
                 //armMotor.setTargetPosition(tierOne);
                 mlift.setPower(1);
@@ -99,7 +109,6 @@ public class Telemetry extends LinearOpMode {
                 mlift.setPower(0);
             }
         }
-
 
         /*
         if (gamepad2.right_bumper) {

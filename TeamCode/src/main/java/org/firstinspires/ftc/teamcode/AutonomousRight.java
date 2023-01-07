@@ -52,8 +52,8 @@ public class AutonomousRight extends LinearOpMode {
 
         waitForStart();
 //first and third moves it right, second and fourth moves it left
-        driveright(30);
-        driveleft(30);
+        driveright(24);
+        driveleft(22);
         driveforward(24);
 
 
@@ -94,7 +94,7 @@ public class AutonomousRight extends LinearOpMode {
 
     }
     public void driveforward(int inches) {
-        int ticks = (int) (inches * (1440 / 3.75));
+        int ticks = (int) (inches * (1440 / 35.7));
         m1.setTargetPosition(ticks);
         m2.setTargetPosition(ticks);
         m3.setTargetPosition(ticks);
@@ -119,7 +119,7 @@ public class AutonomousRight extends LinearOpMode {
         m4.setPower(0);
     }
     public void driveleft(int inches) {
-        int ticks = (int) (inches * (1440 / 3.75));
+        int ticks = (int) (inches * (1440 / 27.1));
         m1.setTargetPosition(ticks);
         m2.setTargetPosition(-ticks);
         m3.setTargetPosition(ticks);
@@ -144,7 +144,7 @@ public class AutonomousRight extends LinearOpMode {
         m4.setPower(0);
     }
     public void driveright(int inches) {
-        int ticks = (int) (inches * (1440 / 3.75));
+        int ticks = (int) (inches * (1440 / 27.1));
         m1.setTargetPosition(-ticks);
         m2.setTargetPosition(ticks);
         m3.setTargetPosition(-ticks);
@@ -171,7 +171,7 @@ public class AutonomousRight extends LinearOpMode {
 
     public void drivebackward(int inches) {
 
-        int ticks = (int) (inches * (1440 / 3.75));
+        int ticks = (int) (inches * (1440 / 35.7));
         m1.setTargetPosition(-ticks);
         m2.setTargetPosition(-ticks);
         m3.setTargetPosition(-ticks);
