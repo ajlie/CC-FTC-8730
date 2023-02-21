@@ -78,13 +78,13 @@ public class Telemetry extends LinearOpMode {
             double p2 = px + py + -pa;
             double p3 = -px + py + pa;
             double p4 = px + py + pa;
-            if (gamepad1.a) {
+            if (gamepad1.right_bumper) {
                 //set power for each motor
                 m1.setPower(p1);
                 m2.setPower(p2);
                 m3.setPower(p3);
                 m4.setPower(p4);
-            } else if (gamepad1.b) {
+            } else if (gamepad1.left_bumper) {
                 m1.setPower(p1/4);
                 m2.setPower(p2/4);
                 m3.setPower(p3/4);
