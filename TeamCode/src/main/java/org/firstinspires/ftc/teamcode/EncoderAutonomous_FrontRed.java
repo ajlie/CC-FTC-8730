@@ -63,7 +63,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Robot: Encoder FrontRed", group="Robot")
+@Autonomous(name="AutonomousEncoderFrontRed", group="Robot")
 //@Disabled
 public class EncoderAutonomous_FrontRed extends LinearOpMode {
 
