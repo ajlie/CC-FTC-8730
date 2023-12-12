@@ -137,7 +137,8 @@ public class EncoderAutonomous_FrontBlue extends LinearOpMode {
 //        encoderRotate(10, 4);
 
         //Driving: Positive, Forward
-        encoderStrafe(-40, 4);
+        encoderDrive(26, 4);
+        encoderStrafe(-100, 4);
 
 //        //Strafing: Positive, Right
 //        encoderStrafe(30, 4);
