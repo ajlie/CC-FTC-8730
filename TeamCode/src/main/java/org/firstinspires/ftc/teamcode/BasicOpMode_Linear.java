@@ -60,6 +60,8 @@ public class BasicOpMode_Linear extends LinearOpMode {
     private DcMotor frontRightDrive;
     private DcMotor backLeftDrive;
     private DcMotor backRightDrive;
+    private DcMotor motorIntake;
+    private DcMotor slideLeft;
 
     @Override
     public void runOpMode() {
@@ -69,17 +71,19 @@ public class BasicOpMode_Linear extends LinearOpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        frontLeftDrive  = hardwareMap.get(DcMotor.class, "frontleftdrive");
-        frontRightDrive = hardwareMap.get(DcMotor.class, "frontrightdrive");
-        backLeftDrive = hardwareMap.get(DcMotor.class,   "backleftdrive");
-        backRightDrive = hardwareMap.get(DcMotor.class, "backrightdrive");
+        frontLeftDrive  = hardwareMap.get(DcMotor.class, "front_left_motor");
+        frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_motor");
+        backLeftDrive = hardwareMap.get(DcMotor.class,   "back_left_motor");
+        backRightDrive = hardwareMap.get(DcMotor.class, "back_right_motor");
+        motorIntake = hardwareMap.get(DcMotor.class, "motor_intake");
+        slideLeft = hardwareMap.get(DcMotor.class, "slide_left");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         // frontLeft & backRight should be in reverse
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        backRightDrive.setDirection(DcMotor.Direction.REVERSE);
+        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -95,6 +99,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
             double backleftPower;
             double backrightPower;
 
+
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
 
@@ -103,6 +108,29 @@ public class BasicOpMode_Linear extends LinearOpMode {
             double drive = -gamepad1.left_stick_y;
             double strafe = gamepad1.left_stick_x;
             double turn  =  gamepad1.right_stick_x;
+            boolean intakeKicker = gamepad1.a;
+            boolean intakeReverse = gamepad1.b;
+            boolean slideUp = gamepad1.x;
+            boolean slideDown = gamepad1.y;
+
+
+            //for intake movement || Prob delete after grabber is inputted
+            if(intakeKicker){
+                motorIntake.setPower(.3);
+            } else if(intakeReverse){
+                motorIntake.setPower(-1);
+            } else {
+                motorIntake.setPower(0);
+            }
+
+            if(slideUp){
+                slideLeft.setPower(1);
+            } else if (slideDown){
+                slideLeft.setPower(-1);
+            } else {
+                slideLeft.setPower(0);
+            }
+
             frontleftPower   = Range.clip(drive + turn + strafe, -1.0, 1.0) ;
             frontrightPower  = Range.clip(drive - turn - strafe, -1.0, 1.0) ;
             backleftPower    = Range.clip(drive + turn - strafe, -1.0, 1.0) ;
