@@ -162,8 +162,10 @@ public class EncoderAutonomous_FrontRed extends LinearOpMode {
 
     //Modify encoderDriveForward to use all four wheels
     public void encoderDrive(double Inches, double timeoutS) {
-        //should we have separate forward drive and backward drive methods???
+        //This function takes a distance in inches and timeout in seconds, both as doubles.
+        // If the distance is negative, the robot will move backward. If positive, it moves forward.
 
+        //should we have separate forward drive and backward drive methods???
         int newFrontLeftTarget;
         int newFrontRightTarget;
         int newBackLeftTarget;
@@ -235,7 +237,9 @@ public class EncoderAutonomous_FrontRed extends LinearOpMode {
     //Below, add an encoderDriveTurn and encoderDriveStrafe method
 
     public void encoderStrafe(double Inches, double timeoutS) {
-        //put something informative here
+        // This function takes a distance in inches and timeout in seconds, both as doubles.
+       // If the distance is negative, the robot will strafe left. If positive, it strafes right.
+
         int newFrontLeftTarget;
         int newFrontRightTarget;
         int newBackLeftTarget;
@@ -249,7 +253,6 @@ public class EncoderAutonomous_FrontRed extends LinearOpMode {
             newFrontRightTarget = frontRightDrive.getCurrentPosition() - (int) (Inches * COUNTS_PER_INCH);
             newBackLeftTarget = backLeftDrive.getCurrentPosition() - (int) (Inches * COUNTS_PER_INCH);
             newBackRightTarget = backRightDrive.getCurrentPosition() + (int) (Inches * COUNTS_PER_INCH);
-
 
             frontLeftDrive.setTargetPosition(newFrontLeftTarget);
             frontRightDrive.setTargetPosition(newFrontRightTarget);
@@ -304,6 +307,9 @@ public class EncoderAutonomous_FrontRed extends LinearOpMode {
     }
 
     public void encoderRotate(double Inches, double timeoutS) {
+        // This function takes a distance in inches and timeout in seconds, both as doubles.
+        // If the distance is negative, the robot will rotate to the left. If positive, it rotates to the right.
+
         int newFrontLeftTarget;
         int newFrontRightTarget;
         int newBackLeftTarget;

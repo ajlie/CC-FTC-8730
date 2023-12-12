@@ -160,6 +160,10 @@ public class EncoderAutonomous_BackRed extends LinearOpMode {
 
     //Modify encoderDriveForward to use all four wheels
     public void encoderDrive(double Inches, double timeoutS) {
+        //This function takes a distance in inches and timeout in seconds, both as doubles.
+        // If the distance is negative, the robot will move backward. If positive, it moves forward.
+
+
         //should we have separate forward drive and backward drive methods???
 
         int newFrontLeftTarget;
@@ -233,6 +237,9 @@ public class EncoderAutonomous_BackRed extends LinearOpMode {
     //Below, add an encoderDriveTurn and encoderDriveStrafe method
 
     public void encoderStrafe(double Inches, double timeoutS) {
+        // This function takes a distance in inches and timeout in seconds, both as doubles.
+        // If the distance is negative, the robot will strafe left. If positive, it strafes right.
+
         //put something informative here
         int newFrontLeftTarget;
         int newFrontRightTarget;
@@ -302,6 +309,9 @@ public class EncoderAutonomous_BackRed extends LinearOpMode {
     }
 
     public void encoderRotate(double Inches, double timeoutS) {
+        // This function takes a distance in inches and timeout in seconds, both as doubles.
+        // If the distance is negative, the robot will rotate to the left. If positive, it rotates to the right.
+
         int newFrontLeftTarget;
         int newFrontRightTarget;
         int newBackLeftTarget;
