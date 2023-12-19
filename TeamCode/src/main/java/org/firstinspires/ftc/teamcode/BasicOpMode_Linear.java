@@ -108,15 +108,15 @@ public class BasicOpMode_Linear extends LinearOpMode {
             double drive = -gamepad1.left_stick_y;
             double strafe = gamepad1.left_stick_x;
             double turn  =  gamepad1.right_stick_x;
-            boolean intakeKicker = gamepad1.a;
-            boolean intakeReverse = gamepad1.b;
+            boolean intakeKicker = gamepad1.b;
+            boolean intakeReverse = gamepad1.a;
             boolean slideUp = gamepad1.x;
             boolean slideDown = gamepad1.y;
 
 
-            //for intake movement || Prob delete after grabber is inputted
+            //for intake movement
             if(intakeKicker){
-                motorIntake.setPower(.3);
+                motorIntake.setPower(1);
             } else if(intakeReverse){
                 motorIntake.setPower(-1);
             } else {

@@ -137,7 +137,18 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
 //        encoderRotate(10, 4);
 
         //Driving: Positive, Forward
-        encoderStrafe(-40, 4);
+        if(pixelLeft) {
+            encoderStrafe(-40, 4);
+            encoderDrive(5, 4);
+            encoderRotate(56, 4);
+        } else if (pixelRight) {
+            encoderStrafe(40,4);
+            encoderDrive(5,4);
+            encoderRotate(-56,4);
+        } else {
+            encoderDrive(5);
+        }
+
 
 //        //Strafing: Positive, Right
 //        encoderStrafe(30, 4);
