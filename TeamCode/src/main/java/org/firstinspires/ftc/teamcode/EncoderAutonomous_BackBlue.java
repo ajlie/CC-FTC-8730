@@ -35,6 +35,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.Pipeline.SplitAveragePipeline;
+import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElementSubsystem;
+
 
 
 /*
@@ -74,8 +77,10 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
     private DcMotor backLeftDrive = null;
     private DcMotor backRightDrive = null;
 
+
     private ElapsedTime runtime = new ElapsedTime();
 
+    private TeamElementSubsystem teamElementDetection=null;
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
     // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
@@ -87,7 +92,7 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
     static final double WHEEL_DIAMETER_INCHES = 11;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION ) /
             (WHEEL_DIAMETER_INCHES * 3.14159);
-    static final double DRIVE_SPEED = 0.6;
+    static final double DRIVE_SPEED = 1.0;
 
     @Override
     public void runOpMode() {
@@ -98,6 +103,20 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
         backLeftDrive = hardwareMap.get(DcMotor.class, "back_left_motor");
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_motor");
 
+        /* change in future to match other hardware, assuming this is for the camera*/
+        teamElementDetection = new TeamElementSubsystem(hardwareMap);
+
+        //use to connect to our detection for camera, and get zone
+        SplitAveragePipeline obj = new SplitAveragePipeline();
+        int getZone = obj.get_element_zone();
+
+         if(getZone == 1){
+//             some movement
+         } else if (getZone == 2){
+//             some movement
+         } else {
+//             some movement
+         }
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -106,17 +125,17 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
 
 
-            //Add back motors below here:
-            frontLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            frontRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            backLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            backRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //Add back motors below here:
+        frontLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
-            frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Starting at", "%7d :%7d",
@@ -133,28 +152,16 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
 
-//        //Rotate: Positive, Right
-//        encoderRotate(10, 4);
-
-        //Driving: Positive, Forward
-        if(pixelLeft) {
-            encoderStrafe(-40, 4);
-            encoderDrive(5, 4);
-            encoderRotate(56, 4);
-        } else if (pixelRight) {
-            encoderStrafe(40,4);
-            encoderDrive(5,4);
-            encoderRotate(-56,4);
-        } else {
-            encoderDrive(5);
-        }
+          //Rotate: Positive, Right
+          //Strafing: Positive, Right
+          //Driving: Positive, Forward
 
 
-//        //Strafing: Positive, Right
-//        encoderStrafe(30, 4);
 
 
-        // S2: Turn Right 12 Inches with 4 Sec timeout
+
+//        get_element_zone();
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -169,6 +176,7 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
      *  2) Move runs out of time
      *  3) Driver stops the OpMode running.
      */
+
 
     //Modify encoderDriveForward to use all four wheels
     public void encoderDrive(double Inches, double timeoutS) {
