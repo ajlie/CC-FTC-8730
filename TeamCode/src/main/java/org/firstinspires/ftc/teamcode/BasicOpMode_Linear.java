@@ -62,6 +62,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
     private DcMotor backRightDrive;
     private DcMotor motorIntake;
     private DcMotor slideLeft;
+    private DcMotor slideRight;
 
     @Override
     public void runOpMode() {
@@ -77,6 +78,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_motor");
         motorIntake = hardwareMap.get(DcMotor.class, "motor_intake");
         slideLeft = hardwareMap.get(DcMotor.class, "slide_left");
+        slideRight = hardwareMap.get(DcMotor.class, "slide_right");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -125,10 +127,13 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
             if(slideUp){
                 slideLeft.setPower(1);
+                slideRight.setPower(-1);
             } else if (slideDown){
                 slideLeft.setPower(-1);
+                slideRight.setPower(1);
             } else {
                 slideLeft.setPower(0);
+                slideRight.setPower(0);
             }
 
             frontleftPower   = Range.clip(drive + turn + strafe, -1.0, 1.0) ;
