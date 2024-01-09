@@ -78,7 +78,7 @@ public class SplitAveragePipeline extends OpenCvPipeline {
             //telemetry.addData("Zone 2 Has Element", distance2);
             color_zone = 2;
         }else{
-            //telemetry.addData("Zone 2 Has Element", distance3);
+            //telemetry.addData("Zone 3 Has Element", distance3);
             color_zone = 3;
         }
 
@@ -102,13 +102,7 @@ public class SplitAveragePipeline extends OpenCvPipeline {
         return Math.sqrt(Math.pow((r1 - r2), 2) + Math.pow((g1 - g2), 2) + Math.pow((b1 - b2), 2));
     }
 
-    public void setAlliancePipe(String alliance){
-        if (alliance.equals("red")){
-            ELEMENT_COLOR = Arrays.asList(255, 0, 0);
-        }else{
-            ELEMENT_COLOR = Arrays.asList(0, 0, 255);
-        }
-    }
+
 
     public int get_element_zone(){
         return color_zone;

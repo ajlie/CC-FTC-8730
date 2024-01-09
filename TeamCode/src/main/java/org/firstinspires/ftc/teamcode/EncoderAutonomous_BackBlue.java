@@ -37,6 +37,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.Pipeline.SplitAveragePipeline;
 import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElementSubsystem;
+import org.openftc.easyopencv.OpenCvCamera;
+
+
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+
 
 
 
@@ -94,6 +100,9 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.14159);
     static final double DRIVE_SPEED = 1.0;
 
+    //for april tags
+    int zoneArea = 0;
+
     @Override
     public void runOpMode() {
 
@@ -108,15 +117,8 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
 
         //use to connect to our detection for camera, and get zone
         SplitAveragePipeline obj = new SplitAveragePipeline();
-        int getZone = obj.get_element_zone();
 
-         if(getZone == 1){
-//             some movement
-         } else if (getZone == 2){
-//             some movement
-         } else {
-//             some movement
-         }
+
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -146,21 +148,44 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
         );
         telemetry.update();
 
+
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
 
-          //Rotate: Positive, Right
-          //Strafing: Positive, Right
-          //Driving: Positive, Forward
+        //Movement
+        //Rotate: Positive, Right [full 90 degrees = 24 inches]
+        //Strafing: Positive, Right
+        //Driving: Positive, Forward
 
 
 
 
+        //figure out certain rotation for the robot to place pixel perfectly
+        int getZone = obj.get_element_zone();
+        if(getZone == 1){
+            /* LOGIC TO CODE */
+            //based on the zone, make this data go in as a parameter into april tags
+            //look for april tags in the specific zone, and change target tag to that specific one
+            // move robot to the board and general position, based on april tag, see if need to move robot a little more
 
-//        get_element_zone();
+            zoneArea = 1;
+            encoderDrive(27,4);
+            encoderRotate(-24,4);
+
+        } else if (getZone == 2){
+            zoneArea = 2;
+            encoderDrive(27, 4);
+            encoderRotate(24, 4);
+
+        } else {
+            zoneArea = 3;
+            encoderDrive(27,4);
+
+        }
 
 
         telemetry.addData("Path", "Complete");
@@ -178,13 +203,10 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
      */
 
 
-    //Modify encoderDriveForward to use all four wheels
+    //Encoder Drive: Move Forward and Backwards
     public void encoderDrive(double Inches, double timeoutS) {
-        //This function takes a distance in inches and timeout in seconds, both as doubles.
-        // If the distance is negative, the robot will move backward. If positive, it moves forward.
 
-        //should we have separate forward drive and backward drive methods???
-
+        //create target position for the robot
         int newFrontLeftTarget;
         int newFrontRightTarget;
         int newBackLeftTarget;
@@ -259,7 +281,7 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
         // This function takes a distance in inches and timeout in seconds, both as doubles.
         // If the distance is negative, the robot will strafe left. If positive, it strafes right.
 
-        //put something informative here
+        //intialize variables for target positions
         int newFrontLeftTarget;
         int newFrontRightTarget;
         int newBackLeftTarget;
@@ -400,6 +422,7 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
 
         }
     }
+
 }
 
 
