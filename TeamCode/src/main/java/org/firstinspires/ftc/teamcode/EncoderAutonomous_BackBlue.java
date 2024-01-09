@@ -176,18 +176,48 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
             //zone 3: right
 
             zoneArea = 1;
+
+            // this portion of code  from the starting position
+            // drives to the pixel on the left, takes it, drives to the backstage, places it, and waits
             encoderDrive(27,4);
             encoderRotate(-24,4);
+            // here put function to grab pixel
+            encoderStrafe(-27, 4);
+            encoderDrive(81, 4);
+            encoderStrafe(27, 4);
+            // here put function to drop it off
+
+
+
 
         } else if (getZone == 2){
             zoneArea = 2;
+
+            // this portion of code  from the starting position
+            // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
             encoderDrive(27, 4);
+            // function to grab pixel
+            encoderDrive(-27, 4);
+            encoderStrafe(-81, 4);
+            encoderDrive(27, 4);
+            encoderRotate(-24, 4);
+            // function to drop off pixel
+
 
 
         } else {
             zoneArea = 3;
+
+            // this portion of code  from the starting position
+            // drives to the pixel on the right, takes it, drives to the backstage, places it, and waits
             encoderDrive(27,4);
             encoderRotate(24, 4);
+            // pick up pixel
+            encoderStrafe(27, 4);
+            encoderDrive(-81, 4);
+            encoderStrafe(-27, 4);
+            encoderRotate(-48, 4);
+            // drop off pixel
 
         }
 
