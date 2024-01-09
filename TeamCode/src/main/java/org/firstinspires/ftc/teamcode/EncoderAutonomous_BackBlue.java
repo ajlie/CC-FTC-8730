@@ -171,6 +171,9 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
             //based on the zone, make this data go in as a parameter into april tags
             //look for april tags in the specific zone, and change target tag to that specific one
             // move robot to the board and general position, based on april tag, see if need to move robot a little more
+            // zone 1: left
+            // zone 2: center
+            //zone 3: right
 
             zoneArea = 1;
             encoderDrive(27,4);
@@ -179,11 +182,12 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
         } else if (getZone == 2){
             zoneArea = 2;
             encoderDrive(27, 4);
-            encoderRotate(24, 4);
+
 
         } else {
             zoneArea = 3;
             encoderDrive(27,4);
+            encoderRotate(24, 4);
 
         }
 
