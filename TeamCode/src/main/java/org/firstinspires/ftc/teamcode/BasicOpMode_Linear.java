@@ -112,8 +112,10 @@ public class BasicOpMode_Linear extends LinearOpMode {
             double turn  =  gamepad1.right_stick_x;
             boolean intakeKicker = gamepad1.b;
             boolean intakeReverse = gamepad1.a;
-            boolean slideUp = gamepad1.x;
-            boolean slideDown = gamepad1.y;
+            boolean slideUp = gamepad1.y;
+            boolean slideDown = gamepad1.x;
+            boolean isolateLeft = gamepad1.dpad_left;
+            boolean isolateRight = gamepad1.dpad_right;
 
 
             //for intake movement
@@ -125,28 +127,39 @@ public class BasicOpMode_Linear extends LinearOpMode {
                 motorIntake.setPower(0);
             }
 
-            if(slideUp){
+            if(slideUp && !(isolateLeft || isolateRight) ){
                 slideLeft.setPower(1);
-                slideRight.setPower(-1);
-            } else if (slideDown){
-                slideLeft.setPower(-1);
                 slideRight.setPower(1);
+            } else if (slideDown && !(isolateLeft || isolateRight)){
+                slideLeft.setPower(-1);
+                slideRight.setPower(-1);
             } else {
                 slideLeft.setPower(0);
                 slideRight.setPower(0);
             }
 
+            //Only use to adjust tension, not for use during gameplay:
+            if(isolateLeft && slideUp){
+                slideLeft.setPower(.5);
+            } else if (slideDown && isolateLeft){
+                slideLeft.setPower(-.5);
+            } else {
+                slideLeft.setPower(0);
+            }
+
+            if(isolateRight && slideUp){
+                slideRight.setPower(.5);
+            } else if (slideDown && isolateRight){
+                slideRight.setPower(-.5);
+            } else {
+                slideRight.setPower(0);
+            }
+
+
             frontleftPower   = Range.clip(drive + turn + strafe, -1.0, 1.0) ;
             frontrightPower  = Range.clip(drive - turn - strafe, -1.0, 1.0) ;
             backleftPower    = Range.clip(drive + turn - strafe, -1.0, 1.0) ;
             backrightPower   = Range.clip(drive - turn + strafe, -1.0, 1.0) ;
-
-            // Tank Mode uses one stick to control each wheel.
-            // - This requires no math, but it is hard to drive forward slowly and keep straight.
-            // frontleftPower = -gamepad1.left-stick-y ;
-            // frontrightPower = -gamepad1.right-stick-y ;
-            // backleftPower  = -gamepad1.left_stick_y ;
-            // backrightPower = -gamepad1.right_stick_y ;
 
             // Send calculated power to wheels
             frontLeftDrive.setPower(frontleftPower);

@@ -19,7 +19,9 @@ public class TeamElementSubsystem {
     int zone = 1;
 
     public TeamElementSubsystem(HardwareMap hardwareMap){
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
+        String webcamName = "Webcam 1";
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
         splitAveragePipeline = new SplitAveragePipeline();
 
         camera.setPipeline(splitAveragePipeline);
@@ -34,7 +36,7 @@ public class TeamElementSubsystem {
             @Override
             public void onError(int errorCode)
             {
-
+                System.out.println(errorCode);
             }
         });
     }
@@ -46,11 +48,4 @@ public class TeamElementSubsystem {
         return zone;
     }
 
-    public void toggleAverageZone(){
-        splitAveragePipeline.toggleAverageZonePipe();
-    }
-
-    public double getMaxDistance(){
-        return splitAveragePipeline.getMaxDistance();
-    }
 }

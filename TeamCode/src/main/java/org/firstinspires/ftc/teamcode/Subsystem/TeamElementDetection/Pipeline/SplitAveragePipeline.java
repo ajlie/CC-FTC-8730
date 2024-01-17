@@ -14,7 +14,7 @@ import java.util.List;
 
 public class SplitAveragePipeline extends OpenCvPipeline {
 
-    List<Integer> ELEMENT_COLOR = Arrays.asList(255, 0, 0); //(red, green, blue)
+    List<Integer> ELEMENT_COLOR = Arrays.asList(255, 255, 255); //(red, green, blue)
 
     //Telemetry telemetry;
 
@@ -34,7 +34,7 @@ public class SplitAveragePipeline extends OpenCvPipeline {
 
     double distance1 = 1;
     double distance2 = 1;
-    double distance3 = 0;
+    double distance3 = 1;
 
     double max_distance = 0;
 
@@ -45,14 +45,14 @@ public class SplitAveragePipeline extends OpenCvPipeline {
         //Creating duplicate of original frame with no edits
         original = input.clone();
 
-        //input = input.submat(new Rect(0));
+        input = input.submat(new Rect(new double[]{0.0}));
 
         //Defining Zones
         //Rect(top left x, top left y, bottom right x, bottom right y)
         // 1 = left; 2 = right; 3 = center
-        zone1 = input.submat(new Rect(0, 161, 190, 169));
-        zone2 = input.submat(new Rect(441, 175, 144, 144));
-        zone3 = input.submat(new Rect(784, 161, 13, 141));
+        zone1 = input.submat(new Rect(60, 170, 356, 285));
+        zone2 = input.submat(new Rect(735, 170, 253, 230));
+        zone3 = input.submat(new Rect(600, 160, 13, 141));
 
         //Averaging the colors in the zones
         avgColor1 = Core.mean(zone1);

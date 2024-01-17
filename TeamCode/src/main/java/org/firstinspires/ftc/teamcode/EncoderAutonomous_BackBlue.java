@@ -42,6 +42,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 
 
@@ -75,7 +76,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 @Autonomous(name="AutonomousEncoderBackBlue", group="Robot")
 //@Disabled
 public class EncoderAutonomous_BackBlue extends LinearOpMode {
-
+    private SplitAveragePipeline splitAveragePipeline;
+    private OpenCvCamera camera;
 
     /* Declare OpMode members. */
     private DcMotor frontLeftDrive = null;
@@ -83,6 +85,7 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
     private DcMotor backLeftDrive = null;
     private DcMotor backRightDrive = null;
 
+    private String webcamName = "Webcam 1";
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -106,17 +109,18 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+        // Add this line at the beginning of your runOpMode method
+
         // Initialize the drive system variables.
         frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_motor");
         frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_motor");
         backLeftDrive = hardwareMap.get(DcMotor.class, "back_left_motor");
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_motor");
 
-        /* change in future to match other hardware, assuming this is for the camera*/
-        teamElementDetection = new TeamElementSubsystem(hardwareMap);
 
-        //use to connect to our detection for camera, and get zone
-        SplitAveragePipeline obj = new SplitAveragePipeline();
+        /* change in future to match other hardware, assuming this is for the camera*/
+
+
 
 
 
@@ -148,7 +152,27 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
         );
         telemetry.update();
 
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
+        splitAveragePipeline = new SplitAveragePipeline();
+        camera.setPipeline(splitAveragePipeline);
 
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                camera.startStreaming(352,288, OpenCvCameraRotation.SIDEWAYS_LEFT);
+            }
+
+            @Override
+            public void onError(int errorCode) {}
+        });
+        while (!isStarted()) {
+            telemetry.addData("ROTATION: ", splitAveragePipeline.get_element_zone());
+            telemetry.update();
+
+        }
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -165,7 +189,7 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
 
 
         //figure out certain rotation for the robot to place pixel perfectly
-        int getZone = obj.get_element_zone();
+        int getZone = teamElementDetection.elementDetection(telemetry);
         if(getZone == 1){
             /* LOGIC TO CODE */
             //based on the zone, make this data go in as a parameter into april tags
