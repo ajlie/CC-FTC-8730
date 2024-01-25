@@ -35,6 +35,15 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.Pipeline.SplitAveragePipeline;
+import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElementSubsystem;
+import org.openftc.easyopencv.OpenCvCamera;
+
+
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+
+
 
 
 /*
@@ -76,6 +85,8 @@ public class EncoderAutonomous_BackRed extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
+    private TeamElementSubsystem teamElementDetection=null;
+
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
     // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
@@ -91,6 +102,10 @@ public class EncoderAutonomous_BackRed extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        String currentAlliance = "red";
+        teamElementDetection.setAlliance(currentAlliance);
+
+        int zoneArea = 0;
 
         // Initialize the drive system variables.
         frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_motor");
@@ -98,6 +113,14 @@ public class EncoderAutonomous_BackRed extends LinearOpMode {
         backLeftDrive = hardwareMap.get(DcMotor.class, "back_left_motor");
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_motor");
 
+        /* change in future to match other hardware, assuming this is for the camera*/
+        teamElementDetection = new TeamElementSubsystem(hardwareMap);
+
+        //use to connect to our detection for camera, and get zone
+        SplitAveragePipeline obj = new SplitAveragePipeline();
+
+
+        //use to connect to our detection for camera, and get zone
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -130,19 +153,66 @@ public class EncoderAutonomous_BackRed extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        // Step through each leg of the path,
-        // Note: Reverse movement is obtained by setting a negative distance (not speed)
-
-//        //Rotate: Positive, Right
-//        encoderRotate(10, 4);
-
+        //Movement
+        //Rotate: Positive, Right [full 90 degrees = 24 inches]
+        //Strafing: Positive, Right
         //Driving: Positive, Forward
-        encoderStrafe(40, 4);
-//        //Strafing: Positive, Right
-//        encoderStrafe(30, 4);
+        //figure out certain rotation for the robot to place pixel perfectly
+        int getZone = obj.get_element_zone();
+        if(getZone == 1){
+            /* LOGIC TO CODE */
+            //based on the zone, make this data go in as a parameter into april tags
+            //look for april tags in the specific zone, and change target tag to that specific one
+            // move robot to the board and general position, based on april tag, see if need to move robot a little more
+            // zone 1: left
+            // zone 2: center
+            //zone 3: right
 
 
-        // S2: Turn Right 12 Inches with 4 Sec timeout
+
+            // this portion of code  from the starting position
+            // drives to the pixel on the left, takes it, drives to the backstage, places it, and waits
+            encoderDrive(27,4);
+            encoderRotate(-24,4);
+            // here put function to grab pixel
+            encoderStrafe(-27, 4);
+            encoderDrive(81, 4);
+            encoderStrafe(27, 4);
+            // here put function to drop it off
+
+
+
+
+        } else if (getZone == 2){
+
+
+            // this portion of code  from the starting position
+            // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
+            encoderDrive(27, 4);
+            // function to grab pixel
+            encoderDrive(-27, 4);
+            encoderStrafe(-81, 4);
+            encoderDrive(27, 4);
+            encoderRotate(-24, 4);
+            // function to drop off pixel
+
+
+
+        } else {
+
+
+            // this portion of code  from the starting position
+            // drives to the pixel on the right, takes it, drives to the backstage, places it, and waits
+            encoderDrive(27,4);
+            encoderRotate(24, 4);
+            // pick up pixel
+            encoderStrafe(27, 4);
+            encoderDrive(-81, 4);
+            encoderStrafe(-27, 4);
+            encoderRotate(-48, 4);
+            // drop off pixel
+
+        }
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

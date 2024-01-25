@@ -25,8 +25,9 @@ android {
 
 dependencies {
     implementation project(':FtcRobotController')
-    implementation 'org.openftc:easyopencv:1.5.3'
+    implementation 'org.openftc:easyopencv:1.7.0'
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
     compileOnly 'org.firstinspires.ftc:RobotCore:9.0.1'
     compileOnly 'org.openftc:easyopencv:1.7.0'
+
 }

@@ -32,7 +32,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -62,7 +64,10 @@ public class BasicOpMode_Linear extends LinearOpMode {
     private DcMotor backRightDrive;
     private DcMotor motorIntake;
     private DcMotor slideLeft;
-    private DcMotor slideRight;
+    private DcMotor pullUp;
+    private Servo   grabberIntake;
+    private CRServo grabberRotate;
+
 
     @Override
     public void runOpMode() {
@@ -78,7 +83,9 @@ public class BasicOpMode_Linear extends LinearOpMode {
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_motor");
         motorIntake = hardwareMap.get(DcMotor.class, "motor_intake");
         slideLeft = hardwareMap.get(DcMotor.class, "slide_left");
-        slideRight = hardwareMap.get(DcMotor.class, "slide_right");
+        pullUp  = hardwareMap.get(DcMotor.class, "pull_up");
+        grabberIntake = hardwareMap.get(Servo.class, "open_grabber");
+        grabberRotate = hardwareMap.get(CRServo.class, "rotate_grabber");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -112,8 +119,16 @@ public class BasicOpMode_Linear extends LinearOpMode {
             double turn  =  gamepad1.right_stick_x;
             boolean intakeKicker = gamepad1.b;
             boolean intakeReverse = gamepad1.a;
-            boolean slideUp = gamepad1.x;
-            boolean slideDown = gamepad1.y;
+
+
+            //controller 2 - INTAKE
+            boolean slideUp = gamepad2.x;
+            boolean slideDown = gamepad2.y;
+            boolean twoPixelGrabber = gamepad2.left_bumper;
+            boolean onePixelGrabber = gamepad2.right_bumper;
+            boolean openGrabber = gamepad2.a;
+            double rotateGrabber = gamepad2.left_stick_x;
+
 
 
             //for intake movement
@@ -127,13 +142,18 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
             if(slideUp){
                 slideLeft.setPower(1);
-                slideRight.setPower(-1);
             } else if (slideDown){
                 slideLeft.setPower(-1);
-                slideRight.setPower(1);
             } else {
                 slideLeft.setPower(0);
-                slideRight.setPower(0);
+            }
+
+            if (twoPixelGrabber){
+                grabberIntake.setPosition(-0.6);
+            } else if(onePixelGrabber){
+                grabberIntake.setPosition(-0.5);
+            } else if(openGrabber){
+                grabberIntake.setPosition(-0.4);
             }
 
             frontleftPower   = Range.clip(drive + turn + strafe, -1.0, 1.0) ;
@@ -141,18 +161,15 @@ public class BasicOpMode_Linear extends LinearOpMode {
             backleftPower    = Range.clip(drive + turn - strafe, -1.0, 1.0) ;
             backrightPower   = Range.clip(drive - turn + strafe, -1.0, 1.0) ;
 
-            // Tank Mode uses one stick to control each wheel.
-            // - This requires no math, but it is hard to drive forward slowly and keep straight.
-            // frontleftPower = -gamepad1.left-stick-y ;
-            // frontrightPower = -gamepad1.right-stick-y ;
-            // backleftPower  = -gamepad1.left_stick_y ;
-            // backrightPower = -gamepad1.right_stick_y ;
 
             // Send calculated power to wheels
             frontLeftDrive.setPower(frontleftPower);
             frontRightDrive.setPower(frontrightPower);
             backLeftDrive.setPower(backleftPower);
             backRightDrive.setPower(backrightPower);
+
+            //set power to the grabber
+            grabberRotate.setPower(rotateGrabber);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());

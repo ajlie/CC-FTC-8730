@@ -106,6 +106,8 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+        String currentAlliance = "blue";
+        teamElementDetection.setAlliance(currentAlliance);
         // Initialize the drive system variables.
         frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_motor");
         frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_motor");

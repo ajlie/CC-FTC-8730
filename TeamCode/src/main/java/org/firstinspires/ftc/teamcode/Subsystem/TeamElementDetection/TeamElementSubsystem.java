@@ -12,9 +12,9 @@ import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.Pipeline.Sp
 
 public class TeamElementSubsystem {
     OpenCvCamera camera;
-    SplitAveragePipeline splitAveragePipeline;
-    int camW = 640;
-    int camH = 480;
+    static SplitAveragePipeline splitAveragePipeline;
+    int camW = 1280;
+    int camH = 720;
 
     int zone = 1;
 
@@ -40,17 +40,14 @@ public class TeamElementSubsystem {
     }
 
 
+
     public int elementDetection(Telemetry telemetry) {
         zone = splitAveragePipeline.get_element_zone();
         telemetry.addData("Element Zone", zone);
         return zone;
     }
-
-    public void toggleAverageZone(){
-        splitAveragePipeline.toggleAverageZonePipe();
+    public  void setAlliance(String alliance){
+        splitAveragePipeline.setAlliancePipe(alliance);
     }
 
-    public double getMaxDistance(){
-        return splitAveragePipeline.getMaxDistance();
-    }
 }
