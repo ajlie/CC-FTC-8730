@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -67,6 +68,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
     private DcMotor pullUp;
     private Servo   grabberIntake;
     private CRServo grabberRotate;
+    private TouchSensor limitSwitch;
 
 
     @Override
@@ -86,6 +88,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
         pullUp  = hardwareMap.get(DcMotor.class, "pull_up");
         grabberIntake = hardwareMap.get(Servo.class, "open_grabber");
         grabberRotate = hardwareMap.get(CRServo.class, "rotate_grabber");
+        limitSwitch = hardwareMap.get(TouchSensor.class, "limit_switch");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -142,7 +145,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
             if(slideUp){
                 slideLeft.setPower(1);
-            } else if (slideDown){
+            } else if (slideDown && !(limitSwitch.isPressed())){
                 slideLeft.setPower(-1);
             } else {
                 slideLeft.setPower(0);
@@ -155,6 +158,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
             } else if(openGrabber){
                 grabberIntake.setPosition(-0.4);
             }
+
 
             frontleftPower   = Range.clip(drive + turn + strafe, -1.0, 1.0) ;
             frontrightPower  = Range.clip(drive - turn - strafe, -1.0, 1.0) ;
