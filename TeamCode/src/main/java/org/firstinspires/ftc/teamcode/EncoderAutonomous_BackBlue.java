@@ -86,6 +86,8 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
+
+
     private TeamElementSubsystem teamElementDetection=null;
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
@@ -106,8 +108,7 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        String currentAlliance = "blue";
-        teamElementDetection.setAlliance(currentAlliance);
+
         // Initialize the drive system variables.
         frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_motor");
         frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_motor");

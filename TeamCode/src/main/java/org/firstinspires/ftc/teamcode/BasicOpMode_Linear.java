@@ -130,7 +130,6 @@ public class BasicOpMode_Linear extends LinearOpMode {
             double rotateGrabber = gamepad2.left_stick_x;
 
 
-
             //for intake movement
             if(intakeKicker){
                 motorIntake.setPower(1);
@@ -148,13 +147,20 @@ public class BasicOpMode_Linear extends LinearOpMode {
                 slideLeft.setPower(0);
             }
 
+            //servos can only rotate 180 degrees, can get close to 0 but never negative
             if (twoPixelGrabber){
-                grabberIntake.setPosition(-0.6);
-            } else if(onePixelGrabber){
-                grabberIntake.setPosition(-0.5);
-            } else if(openGrabber){
-                grabberIntake.setPosition(-0.4);
+                grabberIntake.setPosition(0.1);
             }
+            if(onePixelGrabber){
+                grabberIntake.setPosition(0.2);
+            }
+            if(openGrabber){
+                grabberIntake.setPosition(0.2);
+            }
+
+            grabberRotate.setPower(rotateGrabber);
+
+
 
             frontleftPower   = Range.clip(drive + turn + strafe, -1.0, 1.0) ;
             frontrightPower  = Range.clip(drive - turn - strafe, -1.0, 1.0) ;
@@ -168,8 +174,6 @@ public class BasicOpMode_Linear extends LinearOpMode {
             backLeftDrive.setPower(backleftPower);
             backRightDrive.setPower(backrightPower);
 
-            //set power to the grabber
-            grabberRotate.setPower(rotateGrabber);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
