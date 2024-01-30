@@ -181,14 +181,18 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
             zoneArea = 1;
 
             // this portion of code  from the starting position
-            // drives to the pixel on the left, takes it, drives to the backstage, places it, and waits
+            // drives to the pixel on the left, takes it, drives to the backstage, places it, and parks
             encoderDrive(27,4);
             encoderRotate(-24,4);
-            // here put function to grab pixel
+            // here put function to drop pixel by slowly spinning intake motor to eject pixel
             encoderStrafe(-27, 4);
             encoderDrive(81, 4);
-            encoderStrafe(27, 4);
+            encoderRotate(-48, 4);
+            encoderDrive(-13.5, 4);
+            encoderStrafe(-16, 4);
             // here put function to drop it off
+            encoderStrafe(16, 4);
+            encoderDrive(-13.5, 4);
 
 
 
@@ -199,12 +203,15 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
             // this portion of code  from the starting position
             // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
             encoderDrive(27, 4);
-            // function to grab pixel
+            // function to drop pixel
             encoderDrive(-27, 4);
             encoderStrafe(-81, 4);
-            encoderDrive(27, 4);
-            encoderRotate(-24, 4);
+            encoderRotate(24, 4);
+            encoderDrive(-13.5, 4);
+            encoderStrafe(-22, 4);
             // function to drop off pixel
+            encoderStrafe(22, 4);
+            encoderDrive(-13.5, 4);
 
 
 
@@ -215,12 +222,18 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
             // drives to the pixel on the right, takes it, drives to the backstage, places it, and waits
             encoderDrive(27,4);
             encoderRotate(24, 4);
-            // pick up pixel
+            // drop off pixel
             encoderStrafe(27, 4);
             encoderDrive(-81, 4);
-            encoderStrafe(-27, 4);
-            encoderRotate(-48, 4);
+
+
+            encoderDrive(-13.5, 4);
+            encoderStrafe(-28, 4);
+
             // drop off pixel
+
+            encoderStrafe(28, 4);
+            encoderDrive(-13.5, 4);
 
         }
 
