@@ -33,15 +33,12 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.Pipeline.SplitAveragePipeline;
 import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElementSubsystem;
-import org.openftc.easyopencv.OpenCvCamera;
 
-
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 
@@ -77,11 +74,18 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 public class EncoderAutonomous_BackBlue extends LinearOpMode {
 
 
-    /* Declare OpMode members. */
+    /* Declare DcMotors - Wheels */
     private DcMotor frontLeftDrive = null;
     private DcMotor frontRightDrive = null;
     private DcMotor backLeftDrive = null;
     private DcMotor backRightDrive = null;
+
+    /* Declare DcMotor & Servo - Intake*/
+    private DcMotor motorIntake = null;
+
+    private Servo rotateGrabber = null;
+    private Servo intakeGrabber = null;
+
 
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -114,6 +118,10 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
         frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_motor");
         backLeftDrive = hardwareMap.get(DcMotor.class, "back_left_motor");
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_motor");
+        rotateGrabber = hardwareMap.get(Servo.class, "rotate_grabber");
+        intakeGrabber = hardwareMap.get(Servo.class, "open_grabber");
+        motorIntake = hardwareMap.get(DcMotor.class, "motor_intake");
+
 
         /* change in future to match other hardware, assuming this is for the camera*/
         teamElementDetection = new TeamElementSubsystem(hardwareMap);
@@ -121,7 +129,7 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
         //use to connect to our detection for camera, and get zone
         SplitAveragePipeline obj = new SplitAveragePipeline();
 
-
+        teamElementDetection.setAlliance("blue");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -185,6 +193,8 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
             encoderDrive(27,4);
             encoderRotate(-24,4);
             // here put function to drop pixel by slowly spinning intake motor to eject pixel
+            pushPixel(500);
+
             encoderStrafe(-27, 4);
             encoderDrive(81, 4);
             encoderRotate(-48, 4);
@@ -251,6 +261,24 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
      *  2) Move runs out of time
      *  3) Driver stops the OpMode running.
      */
+
+    public void pushPixel(int sleep){
+        motorIntake.setPower(-1);
+        sleep(sleep);
+        motorIntake.setPower(0);
+    }
+
+    public void pickUpPixel(int pixelNum){
+        if(pixelNum == 1){
+            intakeGrabber.setPosition(0.2);
+            rotateGrabber.setPosition(.1);
+        }
+        if(pixelNum == 2){
+            intakeGrabber.setPosition(.3);
+            rotateGrabber.setPosition(.1);
+        }
+
+    }
 
 
     //Encoder Drive: Move Forward and Backwards
@@ -326,6 +354,8 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
     }
 
     //Below, add an encoderDriveTurn and encoderDriveStrafe method
+
+
 
     public void encoderStrafe(double Inches, double timeoutS) {
         // This function takes a distance in inches and timeout in seconds, both as doubles.

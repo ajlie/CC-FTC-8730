@@ -32,7 +32,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -67,7 +66,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
     private DcMotor slideLeft;
     private DcMotor pullUp;
     private Servo   grabberIntake;
-    private CRServo grabberRotate;
+    private Servo grabberRotate;
     private TouchSensor limitSwitch;
 
 
@@ -87,7 +86,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
         slideLeft = hardwareMap.get(DcMotor.class, "slide_left");
         pullUp  = hardwareMap.get(DcMotor.class, "pull_up");
         grabberIntake = hardwareMap.get(Servo.class, "open_grabber");
-        grabberRotate = hardwareMap.get(CRServo.class, "rotate_grabber");
+        grabberRotate = hardwareMap.get(Servo.class, "rotate_grabber");
         limitSwitch = hardwareMap.get(TouchSensor.class, "limit_switch");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -125,12 +124,13 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
 
             //controller 2 - INTAKE
-            boolean slideUp = gamepad2.x;
-            boolean slideDown = gamepad2.y;
-            boolean twoPixelGrabber = gamepad2.left_bumper;
-            boolean onePixelGrabber = gamepad2.right_bumper;
-            boolean openGrabber = gamepad2.a;
-            double rotateGrabber = gamepad2.left_stick_x;
+            boolean slideUp = gamepad2.y;
+            boolean slideDown = gamepad2.x;
+            boolean twoPixelGrabber = gamepad2.right_bumper;
+            boolean closeGrabber = gamepad2.a;
+            boolean onePixelGrabber = gamepad2.left_bumper;
+            boolean rotateFront = gamepad2.dpad_up;
+            boolean rotateBack = gamepad2.dpad_down;
 
 
             //for intake movement
@@ -143,25 +143,34 @@ public class BasicOpMode_Linear extends LinearOpMode {
             }
 
             if(slideUp){
-                slideLeft.setPower(1);
-            } else if (slideDown && !(limitSwitch.isPressed())){
                 slideLeft.setPower(-1);
+            } else if (slideDown && !(limitSwitch.isPressed())){
+                slideLeft.setPower(1);
             } else {
                 slideLeft.setPower(0);
             }
 
+
+
             //servos can only rotate 180 degrees, can get close to 0 but never negative
             if (twoPixelGrabber){
-                grabberIntake.setPosition(0.1);
+                grabberIntake.setPosition(0.2);
+            }
+            if(closeGrabber){
+                grabberIntake.setPosition(0.05);
             }
             if(onePixelGrabber){
-                grabberIntake.setPosition(0.2);
-            }
-            if(openGrabber){
-                grabberIntake.setPosition(0.2);
+                grabberIntake.setPosition(0.3);
             }
 
-            grabberRotate.setPower(rotateGrabber);
+            if(rotateFront){
+                grabberRotate.setPosition(0);
+            }
+            if(rotateBack){
+                grabberRotate.setPosition(1);
+            }
+
+
 
 
 

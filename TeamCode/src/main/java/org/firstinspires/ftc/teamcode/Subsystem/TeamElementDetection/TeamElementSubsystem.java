@@ -46,7 +46,7 @@ public class TeamElementSubsystem {
         telemetry.addData("Element Zone", zone);
         return zone;
     }
-    public  void setAlliance(String alliance){
+    public void setAlliance(String alliance){
         splitAveragePipeline.setAlliancePipe(alliance);
     }
 
