@@ -129,7 +129,7 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
         //use to connect to our detection for camera, and get zone
         SplitAveragePipeline obj = new SplitAveragePipeline();
 
-        teamElementDetection.setAlliance("blue");
+        teamElementDetection.setAlliance("red");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -195,14 +195,23 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
             // here put function to drop pixel by slowly spinning intake motor to eject pixel
             pushPixel(500);
 
-            encoderStrafe(-27, 4);
-            encoderDrive(81, 4);
+            encoderRotate(27,4);
+            encoderDrive(10,4);
+
+            encoderStrafe(-30,4);
+            encoderRotate(-27, 4);
+
+
+
+
+            encoderDrive(-81, 4);
             encoderRotate(-48, 4);
-            encoderDrive(-13.5, 4);
-            encoderStrafe(-16, 4);
-            // here put function to drop it off
+
+            pushPixel(500);
+
+            encoderDrive(-5, 4);
             encoderStrafe(16, 4);
-            encoderDrive(-13.5, 4);
+            encoderDrive(10, 4);
 
 
 
@@ -213,37 +222,39 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
             // this portion of code  from the starting position
             // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
             encoderDrive(27, 4);
-            // function to drop pixel
-            encoderDrive(-27, 4);
-            encoderStrafe(-81, 4);
-            encoderRotate(24, 4);
-            encoderDrive(-13.5, 4);
-            encoderStrafe(-22, 4);
-            // function to drop off pixel
-            encoderStrafe(22, 4);
-            encoderDrive(-13.5, 4);
+            encoderRotate(-24, 4);
+//            // function to drop pixel
+//            encoderDrive(-27, 4);
+//            encoderStrafe(-81, 4);
+//            encoderRotate(24, 4);
+//            encoderDrive(-13.5, 4);
+//            encoderStrafe(-22, 4);
+//            // function to drop off pixel
+//            encoderStrafe(22, 4);
+//            encoderDrive(-13.5, 4);
 
 
 
         } else {
             zoneArea = 3;
 
-            // this portion of code  from the starting position
-            // drives to the pixel on the right, takes it, drives to the backstage, places it, and waits
-            encoderDrive(27,4);
-            encoderRotate(24, 4);
-            // drop off pixel
-            encoderStrafe(27, 4);
-            encoderDrive(-81, 4);
-
-
-            encoderDrive(-13.5, 4);
-            encoderStrafe(-28, 4);
-
-            // drop off pixel
-
-            encoderStrafe(28, 4);
-            encoderDrive(-13.5, 4);
+//            // this portion of code  from the starting position
+//            // drives to the pixel on the right, takes it, drives to the backstage, places it, and waits
+//            encoderDrive(27,4);
+//            encoderRotate(24, 4);
+//            // drop off pixel
+//            encoderStrafe(27, 4);
+//            encoderDrive(-81, 4);
+//
+//
+//            encoderDrive(-13.5, 4);
+//            encoderStrafe(-28, 4);
+//
+//            // drop off pixel
+//
+//            encoderStrafe(28, 4);
+//            encoderDrive(-13.5, 4);
+            encoderStrafe(10,4);
 
         }
 
@@ -262,8 +273,15 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
      *  3) Driver stops the OpMode running.
      */
 
+
+    public void takePixel(int sleep){
+        motorIntake.setPower(1);
+        sleep(sleep);
+        motorIntake.setPower(0);
+    }
+
     public void pushPixel(int sleep){
-        motorIntake.setPower(-1);
+        motorIntake.setPower(-.3);
         sleep(sleep);
         motorIntake.setPower(0);
     }

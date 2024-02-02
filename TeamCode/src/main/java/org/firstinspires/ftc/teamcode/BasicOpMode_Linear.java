@@ -68,6 +68,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
     private Servo   grabberIntake;
     private Servo grabberRotate;
     private TouchSensor limitSwitch;
+    private Servo droneLaunch;
 
 
     @Override
@@ -88,6 +89,8 @@ public class BasicOpMode_Linear extends LinearOpMode {
         grabberIntake = hardwareMap.get(Servo.class, "open_grabber");
         grabberRotate = hardwareMap.get(Servo.class, "rotate_grabber");
         limitSwitch = hardwareMap.get(TouchSensor.class, "limit_switch");
+        droneLaunch = hardwareMap.get(Servo.class, "drone_launcher");
+
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -121,6 +124,9 @@ public class BasicOpMode_Linear extends LinearOpMode {
             double turn  =  gamepad1.right_stick_x;
             boolean intakeKicker = gamepad1.b;
             boolean intakeReverse = gamepad1.a;
+            boolean droneLauncher = gamepad1.left_bumper;
+            boolean stickUp = gamepad1.right_bumper;
+//            boolean stickDown = gamepad1.right_trigger;
 
 
             //controller 2 - INTAKE
@@ -131,13 +137,14 @@ public class BasicOpMode_Linear extends LinearOpMode {
             boolean onePixelGrabber = gamepad2.left_bumper;
             boolean rotateFront = gamepad2.dpad_up;
             boolean rotateBack = gamepad2.dpad_down;
+            boolean rotateLeft = gamepad2.dpad_left;
 
 
             //for intake movement
             if(intakeKicker){
-                motorIntake.setPower(1);
+                motorIntake.setPower(.5);
             } else if(intakeReverse){
-                motorIntake.setPower(-1);
+                motorIntake.setPower(-.5);
             } else {
                 motorIntake.setPower(0);
             }
@@ -154,23 +161,31 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
             //servos can only rotate 180 degrees, can get close to 0 but never negative
             if (twoPixelGrabber){
-                grabberIntake.setPosition(0.2);
+                grabberIntake.setPosition(0.18);
             }
             if(closeGrabber){
-                grabberIntake.setPosition(0.05);
+                grabberIntake.setPosition(0.01);
             }
             if(onePixelGrabber){
-                grabberIntake.setPosition(0.3);
+                grabberIntake.setPosition(0.20);
             }
 
             if(rotateFront){
-                grabberRotate.setPosition(0);
+                grabberRotate.setPosition(.42);
             }
             if(rotateBack){
-                grabberRotate.setPosition(1);
+                grabberRotate.setPosition(.17);
+            }
+            if(rotateLeft){
+                grabberRotate.setPosition(.6);
             }
 
-
+            if(droneLauncher){
+                droneLaunch.setPosition(.5);
+            }
+//            if(roboUp){
+//                pullUp.setPower(1);
+//            }
 
 
 

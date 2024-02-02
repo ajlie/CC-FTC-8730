@@ -33,6 +33,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.Pipeline.SplitAveragePipeline;
@@ -76,9 +77,13 @@ public class EncoderAutonomous_FrontBlue extends LinearOpMode {
     private DcMotor frontRightDrive = null;
     private DcMotor backLeftDrive = null;
     private DcMotor backRightDrive = null;
+    private DcMotor motorIntake = null;
+    private Servo grabberIntake = null;
+    private Servo grabberRotate = null;
+    private DcMotor slideLeft;
+
 
     private ElapsedTime runtime = new ElapsedTime();
-
     private TeamElementSubsystem teamElementDetection=null;
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
@@ -95,14 +100,17 @@ public class EncoderAutonomous_FrontBlue extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        String currentAlliance = "blue";
-        teamElementDetection.setAlliance(currentAlliance);
+
 
         // Initialize the drive system variables.
         frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_motor");
         frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_motor");
         backLeftDrive = hardwareMap.get(DcMotor.class, "back_left_motor");
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_motor");
+        motorIntake = hardwareMap.get(DcMotor.class, "motor_intake");
+        grabberIntake = hardwareMap.get(Servo.class, "open_grabber");
+        grabberRotate = hardwareMap.get(Servo.class, "rotate_grabber");
+        slideLeft = hardwareMap.get(DcMotor.class, "slide_left");
 
         /* change in future to match other hardware, assuming this is for the camera*/
         teamElementDetection = new TeamElementSubsystem(hardwareMap);
@@ -141,62 +149,82 @@ public class EncoderAutonomous_FrontBlue extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        teamElementDetection.setAlliance("blue");
 
-        int getZone = obj.get_element_zone();
-        if(getZone == 1){
-            /* LOGIC TO CODE */
-            //based on the zone, make this data go in as a parameter into april tags
-            //look for april tags in the specific zone, and change target tag to that specific one
-            // move robot to the board and general position, based on april tag, see if need to move robot a little more
-            // zone 1: left
-            // zone 2: center
-            //zone 3: right
+        pushPixel(500);
+        dropPixel();
 
-
-
-            // this portion of code  from the starting position
-            // drives to the pixel on the left, takes it, drives to the backstage, places it, and waits
-            encoderDrive(27,4);
-            encoderRotate(-24,4);
-            // here put function to grab pixel
-            encoderStrafe(-27, 4);
-            encoderDrive(81, 4);
-            encoderStrafe(27, 4);
-            // here put function to drop it off
-
-
-
-
-        } else if (getZone == 2){
-
-
-            // this portion of code  from the starting position
-            // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
-            encoderDrive(27, 4);
-            // function to grab pixel
-            encoderDrive(-27, 4);
-            encoderStrafe(-81, 4);
-            encoderDrive(27, 4);
-            encoderRotate(-24, 4);
-            // function to drop off pixel
-
-
-
-        } else {
-
-
-            // this portion of code  from the starting position
-            // drives to the pixel on the right, takes it, drives to the backstage, places it, and waits
-            encoderDrive(27,4);
-            encoderRotate(24, 4);
-            // pick up pixel
-            encoderStrafe(27, 4);
-            encoderDrive(-81, 4);
-            encoderStrafe(-27, 4);
-            encoderRotate(-48, 4);
-            // drop off pixel
-
-        }
+//        int getZone = obj.get_element_zone();
+//        if(getZone == 1){
+//            /* LOGIC TO CODE */
+//            //based on the zone, make this data go in as a parameter into april tags
+//            //look for april tags in the specific zone, and change target tag to that specific one
+//            // move robot to the board and general position, based on april tag, see if need to move robot a little more
+//            // zone 1: left
+//            // zone 2: center
+//            //zone 3: center
+//
+//
+//
+////            // this portion of code  from the starting position
+////            // drives to the pixel on the left, takes it, drives to the backstage, places it, and waits
+////            encoderDrive(26,4);
+////            encoderRotate(24,4);
+////            // here put function to grab pixel
+////
+////            pushPixel(500);
+////
+////            encoderStrafe(-27, 4);
+////            encoderDrive(10, 4);
+////            encoderStrafe(20, 4);
+////            // here put function to drop it off
+//
+//            encoderDrive(27,4);
+//            encoderRotate(24,4);
+//
+//
+//
+//
+//
+//        } else if (getZone == 2){
+//
+//
+//            // this portion of code  from the starting position
+//            // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
+//            encoderDrive(27, 4);
+//            encoderRotate(-24,4);
+////            // function to grab pixel
+////            encoderDrive(-27, 4);
+////            encoderStrafe(-81, 4);
+////            encoderDrive(27, 4);
+////            encoderRotate(-24, 4);
+////            // function to drop off pixel
+//
+//
+//            //cente
+//        } else {
+//
+//
+//            // this portion of code  from the starting position
+//            // drives to the pixel on the right, takes it, drives to the backstage, places it, and waits
+//            encoderDrive(30,4);
+////            encoderRotate(24, 4);
+////
+////            //pushes pixel
+////            pushPixel(500);
+////
+////            //get to board and drop pixel
+////            encoderRotate(-48,4);
+////            encoderStrafe(5, 4);
+////            encoderDrive(20,4);
+////            dropPixel();
+////
+////            //park robot
+////            encoderStrafe(-15, 4);
+////            encoderDrive(10, 4);
+//
+//
+//        }
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -211,6 +239,26 @@ public class EncoderAutonomous_FrontBlue extends LinearOpMode {
      *  2) Move runs out of time
      *  3) Driver stops the OpMode running.
      */
+
+    public void pushPixel(int sleep){
+        motorIntake.setPower(-.3);
+        sleep(sleep);
+        motorIntake.setPower(0);
+    }
+
+    public void dropPixel(){
+        slideLeft.setPower(-1);
+        sleep(500);
+        grabberRotate.setPosition(.6);
+        slideLeft.setPower(-1);
+        sleep(1000);
+        grabberRotate.setPosition(.17);
+        grabberIntake.setPosition(.18);
+        grabberIntake.setPosition(.01);
+        grabberRotate.setPosition(.6);
+        slideLeft.setPower(1);
+        sleep(400);
+    }
 
     //Modify encoderDriveForward to use all four wheels
     public void encoderDrive(double Inches, double timeoutS) {
