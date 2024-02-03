@@ -129,7 +129,7 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
         //use to connect to our detection for camera, and get zone
         SplitAveragePipeline obj = new SplitAveragePipeline();
 
-        teamElementDetection.setAlliance("red");
+        teamElementDetection.setAlliance("blue");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -281,9 +281,10 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
     }
 
     public void pushPixel(int sleep){
-        motorIntake.setPower(-.3);
+        motorIntake.setPower(.3);
         sleep(sleep);
         motorIntake.setPower(0);
+        sleep(1000);w
     }
 
     public void pickUpPixel(int pixelNum){
