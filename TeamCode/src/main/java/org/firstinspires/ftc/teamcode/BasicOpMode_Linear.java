@@ -125,8 +125,8 @@ public class BasicOpMode_Linear extends LinearOpMode {
             boolean intakeKicker = gamepad1.b;
             boolean intakeReverse = gamepad1.a;
             boolean droneLauncher = gamepad1.left_bumper;
-            boolean stickUp = gamepad1.right_bumper;
-//            boolean stickDown = gamepad1.right_trigger;
+            boolean liftUp = gamepad1.right_bumper;
+            boolean liftDown = gamepad1.right_trigger;
 
 
             //controller 2 - INTAKE
@@ -149,6 +149,8 @@ public class BasicOpMode_Linear extends LinearOpMode {
                 motorIntake.setPower(0);
             }
 
+
+            //for the robot slide to go up and down, limit switch is implemented 
             if(slideUp){
                 slideLeft.setPower(-1);
             } else if (slideDown && !(limitSwitch.isPressed())){
@@ -160,6 +162,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
 
             //servos can only rotate 180 degrees, can get close to 0 but never negative
+            //calibrated for two pixel grabber and close and open grabber
             if (twoPixelGrabber){
                 grabberIntake.setPosition(0.18);
             }
@@ -170,6 +173,11 @@ public class BasicOpMode_Linear extends LinearOpMode {
                 grabberIntake.setPosition(0.20);
             }
 
+            /* Used for rotating Grabber 
+                - Front: to grab pixels 
+                - Back: to drop pixels [DO NOT CHANGE, the number is so that second servo hits metal]
+                - Left: to make sure pixels do not hit the bolts
+            */
             if(rotateFront){
                 grabberRotate.setPosition(.42);
             }
@@ -180,12 +188,18 @@ public class BasicOpMode_Linear extends LinearOpMode {
                 grabberRotate.setPosition(.6);
             }
 
+
+            //drone launch - END GAME
             if(droneLauncher){
                 droneLaunch.setPosition(.5);
             }
-//            if(roboUp){
-//                pullUp.setPower(1);
-//            }
+
+            //Lift Robo Up, go robo go robo
+            if(liftUp){
+                pullUp.setPower(1);
+            } else if (liftDown){
+                pullUp.setPower(-1);
+            }
 
 
 

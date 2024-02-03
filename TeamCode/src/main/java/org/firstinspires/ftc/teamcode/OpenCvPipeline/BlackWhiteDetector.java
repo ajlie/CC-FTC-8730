@@ -1,18 +1,14 @@
-package org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.Pipeline;
-
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class SplitAveragePipeline extends OpenCvPipeline {
-
-    List<Scalar> ELEMENT_COLOR_RED = Arrays.asList(new Scalar(0,100,100), new Scalar(25,255,255), new Scalar(160,100,100), new Scalar(255,255,255)); // Range for red color
-    List<Scalar> ELEMENT_COLOR_BLUE = Arrays.asList(new Scalar(100,100,100), new Scalar(115,255,255)); // Range for blue color
+public class BlackWhiteDetector extends OpenCvPipeline {
 
     static int color_zone = 3; // Default to 3
 
@@ -51,25 +47,17 @@ public class SplitAveragePipeline extends OpenCvPipeline {
         avgColor1 = Core.mean(zone1);
         avgColor2 = Core.mean(zone2);
 
-        // Putting averaged colors on zones (we can see on camera now)
-        zone1.setTo(avgColor1);
-        zone2.setTo(avgColor2);
+        // Check if average colors are in the range from white to black
+        boolean isZone1WhiteToBlack = isInRange(avgColor1, Arrays.asList(new Scalar(0, 0, 0), new Scalar(180, 255, 30)));
+        boolean isZone2WhiteToBlack = isInRange(avgColor2, Arrays.asList(new Scalar(0, 0, 0), new Scalar(180, 255, 30)));
 
-        distance1 = Math.min(color_distance(avgColor1, ELEMENT_COLOR_RED), color_distance(avgColor1, ELEMENT_COLOR_BLUE));
-        distance2 = Math.min(color_distance(avgColor2, ELEMENT_COLOR_RED), color_distance(avgColor2, ELEMENT_COLOR_BLUE));
-
-        if (distance1 > 195 && distance2 > 190) {
-            max_distance = -1;
-            System.out.println("NO color Detected");
+        if (isZone1WhiteToBlack && isZone2WhiteToBlack) {
+            max_distance =  -1;
         } else {
-            max_distance = Math.min(distance1, distance2);
-
-            if (max_distance == distance1) {
+            if (isZone1WhiteToBlack) {
                 color_zone = 1;
-                System.out.println("Zone 1 detected color");
-            } else {
+            } else if (isZone2WhiteToBlack) {
                 color_zone = 2;
-                System.out.println("Zone 2 detected color");
             }
         }
 
@@ -103,15 +91,6 @@ public class SplitAveragePipeline extends OpenCvPipeline {
 
     public boolean isInRange(Scalar color, List<Scalar> colorRange) {
         return (color_distance(color, colorRange) >= 0 && color_distance(color, colorRange) <= 100);
-    }
-
-    public int setAlliancePipe(String alliance) {
-        if (alliance.equals("red")) {
-            ELEMENT_COLOR_RED = AArrays.asList(new Scalar(0,100,100), new Scalar(25,255,255), new Scalar(160,100,100), new Scalar(255,255,255));
-        } else {
-            ELEMENT_COLOR_BLUE = Arrays.asList(new Scalar(100,100,100), new Scalar(115,255,255));;
-        }
-        return 0;
     }
 
     public int get_element_zone() {
