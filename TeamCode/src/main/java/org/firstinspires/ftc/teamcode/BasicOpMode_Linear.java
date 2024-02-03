@@ -125,8 +125,8 @@ public class BasicOpMode_Linear extends LinearOpMode {
             boolean intakeKicker = gamepad1.b;
             boolean intakeReverse = gamepad1.a;
             boolean droneLauncher = gamepad1.left_bumper;
-            boolean liftUp = gamepad1.right_bumper;
-            boolean liftDown = gamepad1.right_trigger;
+            boolean liftUp = gamepad1.y;
+            boolean liftDown = gamepad1.x;
 
 
             //controller 2 - INTAKE
@@ -178,6 +178,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
                 - Back: to drop pixels [DO NOT CHANGE, the number is so that second servo hits metal]
                 - Left: to make sure pixels do not hit the bolts
             */
+            //.42
             if(rotateFront){
                 grabberRotate.setPosition(.42);
             }

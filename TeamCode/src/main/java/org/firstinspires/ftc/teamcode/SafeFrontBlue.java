@@ -67,9 +67,9 @@ import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElement
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutonomousEncoderFrontBlue", group="Robot")
+@Autonomous(name="TODAY-SafeFrontBlue", group="Robot")
 //@Disabled
-public class EncoderAutonomous_FrontBlue extends LinearOpMode {
+public class SafeFrontBlue extends LinearOpMode {
 
 
     /* Declare OpMode members. */
@@ -152,13 +152,14 @@ public class EncoderAutonomous_FrontBlue extends LinearOpMode {
 
         gripPixel();
 
-        sleep(10000);
-        encoderRotate(-24,8);
-        encoderStrafe(10,8);
-        encoderDrive(35,8);
-        dropPixel();
-        encoderStrafe(-15, 8);
-        encoderDrive(10,8);
+//        sleep(1000);
+        encoderDrive(3,8);
+        encoderRotate(24,10);
+        encoderDrive(-34,8);
+
+//        dropPixel();
+//        encoderStrafe(15, 8);
+//        encoderDrive(-10,8);
 
 
         telemetry.addData("Path", "Complete");
@@ -175,6 +176,10 @@ public class EncoderAutonomous_FrontBlue extends LinearOpMode {
      *  3) Driver stops the OpMode running.
      */
 
+    public void gripPixel(){
+        grabberIntake.setPosition(.01);
+    }
+
     public void pushPixel(int sleep){
         motorIntake.setPower(-.3);
         sleep(sleep);
@@ -183,10 +188,10 @@ public class EncoderAutonomous_FrontBlue extends LinearOpMode {
 
     public void dropPixel(){
         slideLeft.setPower(-1);
-        sleep(500);
+        sleep(100);
         grabberRotate.setPosition(.6);
         slideLeft.setPower(-1);
-        sleep(1000);
+        sleep(400);
         grabberRotate.setPosition(.17);
         grabberIntake.setPosition(.18);
         grabberIntake.setPosition(.01);

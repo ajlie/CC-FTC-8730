@@ -1,3 +1,5 @@
+package org.firstinspires.ftc.teamcode.CameraPipeline;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
@@ -47,6 +49,9 @@ public class BlackWhiteDetector extends OpenCvPipeline {
         avgColor1 = Core.mean(zone1);
         avgColor2 = Core.mean(zone2);
 
+        zone1.setTo(avgColor1);
+        zone2.setTo(avgColor2);
+
         // Check if average colors are in the range from white to black
         boolean isZone1WhiteToBlack = isInRange(avgColor1, Arrays.asList(new Scalar(0, 0, 0), new Scalar(180, 255, 30)));
         boolean isZone2WhiteToBlack = isInRange(avgColor2, Arrays.asList(new Scalar(0, 0, 0), new Scalar(180, 255, 30)));
@@ -89,6 +94,7 @@ public class BlackWhiteDetector extends OpenCvPipeline {
         return distance;
     }
 
+    //check if the zone is in range
     public boolean isInRange(Scalar color, List<Scalar> colorRange) {
         return (color_distance(color, colorRange) >= 0 && color_distance(color, colorRange) <= 100);
     }

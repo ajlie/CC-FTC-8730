@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.BackUpAutonomous;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -36,8 +36,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.OpenCvPipeline.BlackWhiteDetector;
-import org.firstinspires.ftc.teamcode.OpenCvPipeline.TeamElementSubsystem;
+import org.firstinspires.ftc.teamcode.CameraPipeline.BlackWhiteDetector;
+import org.firstinspires.ftc.teamcode.CameraPipeline.TeamElementSubsystem;
 
 
 
@@ -67,9 +67,8 @@ import org.firstinspires.ftc.teamcode.OpenCvPipeline.TeamElementSubsystem;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutoBackBlue", group="Robot")
-//@Disabled
-public class AutoFrontBlue extends LinearOpMode {
+@Autonomous(name="AutoBackRed", group="Robot")
+public class AutoBackRed extends LinearOpMode {
 
 
     /* Declare OpMode members. */
@@ -84,7 +83,7 @@ public class AutoFrontBlue extends LinearOpMode {
 
 
     private ElapsedTime runtime = new ElapsedTime();
-    private BlackWhiteDetector BlackWhiteDetector=null;
+    private TeamElementSubsystem TeamElementSubsystem=null;
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
     // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
@@ -113,7 +112,7 @@ public class AutoFrontBlue extends LinearOpMode {
         slideLeft = hardwareMap.get(DcMotor.class, "slide_left");
 
         /* change in future to match other hardware, assuming this is for the camera*/
-        BlackWhiteDetector = new TeamElementSubsystem(hardwareMap);
+        TeamElementSubsystem = new TeamElementSubsystem(hardwareMap);
 
         //use to connect to our detection for camera, and get zone
         BlackWhiteDetector obj = new BlackWhiteDetector();
@@ -171,15 +170,9 @@ public class AutoFrontBlue extends LinearOpMode {
 
            
            //get to board and drop pixel
-           encoderRotate(48,8);
-           encoderStrafe(30,8);
-           encoderDrive(60,8);
-           encoderStrafe(24,8);
-           dropPixel();
+           encoderStrafe(5,8);
+           encoderDrive(-35,8);
 
-           //park robot
-           encoderStrafe(-15, 8);
-           encoderDrive(10, 8);
            
 
        } else if (getZone == 2){
@@ -191,19 +184,12 @@ public class AutoFrontBlue extends LinearOpMode {
 
            pushPixel(500);
 
-           encoderStrafe(10, 8);
-           encoderDrive(40, 8);
-           encoderRotate(24,8);
+           encoderRotate(-24, 8);
+           encoderDrive(36, 8);
+           encoderStrafe(15,8);
 
-           encoderDrive(81,8);
-           encoderStrafe(40,8);
            encoderDrive(5,8);
 
-           
-           dropPixel();
-
-           encoderStrafe(-20,8);
-           encoderDrive(10,8);
 
        } else {
 
@@ -218,16 +204,9 @@ public class AutoFrontBlue extends LinearOpMode {
 
 
          
-           encoderStrafe(-40,8);
-           encoderDrive(80,8);
-           encoderStrafe(15,8);
-           encoderDrive(5,8);
+           encoderStrafe(20,8);
+           encoderDrive(36,8);
 
-           
-           dropPixel();
-
-           encoderStrafe(-20,8);
-           encoderDrive(10,8);
 
 
 

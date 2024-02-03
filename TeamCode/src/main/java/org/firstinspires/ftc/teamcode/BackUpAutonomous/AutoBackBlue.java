@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.BackUpAutonomous;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -36,8 +36,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.OpenCvPipeline.BlackWhiteDetector;
-import org.firstinspires.ftc.teamcode.OpenCvPipeline.TeamElementSubsystem;
+import org.firstinspires.ftc.teamcode.CameraPipeline.BlackWhiteDetector;
+import org.firstinspires.ftc.teamcode.CameraPipeline.TeamElementSubsystem;
 
 
 
@@ -68,8 +68,7 @@ import org.firstinspires.ftc.teamcode.OpenCvPipeline.TeamElementSubsystem;
  */
 
 @Autonomous(name="AutoBackBlue", group="Robot")
-//@Disabled
-public class AutoFrontBlue extends LinearOpMode {
+public class AutoBackBlue extends LinearOpMode {
 
 
     /* Declare OpMode members. */
@@ -84,7 +83,7 @@ public class AutoFrontBlue extends LinearOpMode {
 
 
     private ElapsedTime runtime = new ElapsedTime();
-    private BlackWhiteDetector BlackWhiteDetector=null;
+    private TeamElementSubsystem TeamElementSubsystem=null;
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
     // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
@@ -113,7 +112,7 @@ public class AutoFrontBlue extends LinearOpMode {
         slideLeft = hardwareMap.get(DcMotor.class, "slide_left");
 
         /* change in future to match other hardware, assuming this is for the camera*/
-        BlackWhiteDetector = new TeamElementSubsystem(hardwareMap);
+        TeamElementSubsystem = new TeamElementSubsystem(hardwareMap);
 
         //use to connect to our detection for camera, and get zone
         BlackWhiteDetector obj = new BlackWhiteDetector();
@@ -163,68 +162,71 @@ public class AutoFrontBlue extends LinearOpMode {
            // zone 3: right
 
            
-           encoderDrive(25,8);
+           encoderDrive(22,8);
            encoderRotate(-24,8);
            // here put function to grab pixel
 
            pushPixel(500);
 
-           
-           encoderDrive(60, 8);
-           encoderStrafe(-40,8);
-           encoderDrive(5,8);
+           encoderStrafe(10,8);
+           encoderDrive(72, 8);
+           encoderRotate(48, 8);
+           encoderStrafe(15,8);
+           encoderDrive(-5,8);
 
            
            dropPixel();
 
-           encoderStrafe(20,8);
-           encoderDrive(10,8);
+           encoderStrafe(-15,8);
+           encoderDrive(-10,8);
            
 
        } else if (getZone == 2){
 
 
-           encoderDrive(26,8);
+           encoderDrive(22,8);
 
            // here put function to grab pixel
 
            pushPixel(500);
 
-           encoderStrafe(-10, 8);
-           encoderDrive(40, 8);
-           encoderRotate(-24,8);
+           encoderStrafe(15, 8);
+           encoderDrive(20, 8);
+           encoderRotate(24,8);
+           encoderDrive(-72,8);
 
-           encoderDrive(81,8);
-           encoderStrafe(-40,8);
-           encoderDrive(5,8);
+
+           encoderStrafe(20,8);
+           encoderDrive(-5,8);
 
            
            dropPixel();
 
-           encoderStrafe(20,8);
-           encoderDrive(10,8);
+           encoderStrafe(15,8);
+           encoderDrive(-10,8);
 
        } else {
 
 
            // this portion of code  from the starting position
            // drives to the pixel on the right, takes it, drives to the backstage, places it, and waits
-           encoderDrive(25,8);
+           encoderDrive(22,8);
            encoderRotate(24, 8);
 
            //pushes pixel
            pushPixel(500);
 
            //get to board and drop pixel
-           encoderRotate(-48,8);
-           encoderStrafe(30,8);
-           encoderDrive(60,8);
-           encoderStrafe(-24,8);
+
+           encoderStrafe(15,8);
+           encoderDrive(-72,8);
+           encoderStrafe(15,8);
+           encoderDrive(-5,8);
            dropPixel();
 
            //park robot
            encoderStrafe(15, 8);
-           encoderDrive(10, 8);
+           encoderDrive(-10, 8);
 
 
        }
@@ -247,21 +249,21 @@ public class AutoFrontBlue extends LinearOpMode {
         motorIntake.setPower(.3);
         sleep(sleep);
         motorIntake.setPower(0);
-        sleep(1000);
+        sleep(400);
     }
 
     public void dropPixel(){
         slideLeft.setPower(-1);
-        sleep(800);
+        sleep(100);
         grabberRotate.setPosition(.6);
         slideLeft.setPower(-1);
-        sleep(5000);
+        sleep(400);
         grabberRotate.setPosition(.17);
         grabberIntake.setPosition(.18);
         grabberIntake.setPosition(.01);
         grabberRotate.setPosition(.6);
         slideLeft.setPower(1);
-        sleep(4000);
+        sleep(400);
     }
 
     public void gripPixel(){

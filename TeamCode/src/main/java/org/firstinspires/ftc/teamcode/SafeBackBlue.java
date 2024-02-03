@@ -41,6 +41,7 @@ import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElement
 
 
 
+
 /*
  * This OpMode illustrates the concept of driving a path based on encoder counts.
  * The code is structured as a LinearOpMode
@@ -67,9 +68,9 @@ import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElement
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutonomousEncoderFrontBlue", group="Robot")
+@Autonomous(name="TODAY-SafeBackBlue", group="Robot")
 //@Disabled
-public class EncoderAutonomous_FrontBlue extends LinearOpMode {
+public class SafeBackBlue extends LinearOpMode {
 
 
     /* Declare OpMode members. */
@@ -152,14 +153,16 @@ public class EncoderAutonomous_FrontBlue extends LinearOpMode {
 
         gripPixel();
 
-        sleep(10000);
-        encoderRotate(-24,8);
-        encoderStrafe(30,8);
-        encoderDrive(80,8);
-        encoderStrafe(-30,8)
+        sleep(1000);
+        encoderRotate(-24,10);
+        encoderStrafe(40,10);
+        encoderDrive(72,10);
+        encoderStrafe(-26,8);
+        encoderRotate(-48,8);
+        encoderDrive(-11,8);
         dropPixel();
-        encoderStrafe(15, 8);
-        encoderDrive(10,8);
+        encoderStrafe(18, 8);
+        encoderDrive(-10,8);
 
 
         telemetry.addData("Path", "Complete");
@@ -176,6 +179,10 @@ public class EncoderAutonomous_FrontBlue extends LinearOpMode {
      *  3) Driver stops the OpMode running.
      */
 
+    public void gripPixel(){
+        grabberIntake.setPosition(.01);
+    }
+
     public void pushPixel(int sleep){
         motorIntake.setPower(-.3);
         sleep(sleep);
@@ -184,10 +191,10 @@ public class EncoderAutonomous_FrontBlue extends LinearOpMode {
 
     public void dropPixel(){
         slideLeft.setPower(-1);
-        sleep(500);
+        sleep(100);
         grabberRotate.setPosition(.6);
         slideLeft.setPower(-1);
-        sleep(1000);
+        sleep(400);
         grabberRotate.setPosition(.17);
         grabberIntake.setPosition(.18);
         grabberIntake.setPosition(.01);

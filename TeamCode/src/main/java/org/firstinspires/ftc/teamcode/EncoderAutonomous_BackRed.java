@@ -72,7 +72,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutonomousEncoderBackRed", group="Robot")
+@Autonomous(name="NO_USE2", group="Robot")
 //@Disabled
 public class EncoderAutonomous_BackRed extends LinearOpMode {
 
@@ -82,6 +82,7 @@ public class EncoderAutonomous_BackRed extends LinearOpMode {
     private DcMotor frontRightDrive = null;
     private DcMotor backLeftDrive = null;
     private DcMotor backRightDrive = null;
+    private DcMotor motorIntake = null;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -112,6 +113,7 @@ public class EncoderAutonomous_BackRed extends LinearOpMode {
         frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_motor");
         backLeftDrive = hardwareMap.get(DcMotor.class, "back_left_motor");
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_motor");
+        motorIntake = hardwareMap.get(DcMotor.class, "motor_intake");
 
         /* change in future to match other hardware, assuming this is for the camera*/
         teamElementDetection = new TeamElementSubsystem(hardwareMap);
@@ -169,51 +171,43 @@ public class EncoderAutonomous_BackRed extends LinearOpMode {
             //zone 3: right
 
 
-
             // this portion of code  from the starting position
-            // drives to the pixel on the left, takes it, drives to the backstage, places it, and waits
-            encoderDrive(27,4);
-            encoderRotate(-24,4);
-            // here put function to grab pixel
-            encoderStrafe(-27, 4);
-            encoderDrive(81, 4);
-            encoderStrafe(27, 4);
-            // here put function to drop it off
+            // drives to the pixel on the left, takes it, drives to the backstage, places it, and parks
+
+            encoderDrive(20,8);
+            encoderRotate(-24,8);
+            pushPixel(500);
+            encoderStrafe(-20,8);
+            encoderDrive(40,8);
 
 
 
 
         } else if (getZone == 2){
-
+            zoneArea = 2;
 
             // this portion of code  from the starting position
             // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
-            encoderDrive(27, 4);
-            // function to grab pixel
-            encoderDrive(-27, 4);
-            encoderStrafe(-81, 4);
-            encoderDrive(27, 4);
-            encoderRotate(-24, 4);
-            // function to drop off pixel
+            encoderDrive(24, 8);
+            encoderStrafe(-8,8);
+            pushPixel(500);
+            encoderRotate(-24,8);
+            encoderDrive(36,10);
+            encoderStrafe(20,8);
+            encoderDrive(15,5);
+
 
 
 
         } else {
-
-
-            // this portion of code  from the starting position
-            // drives to the pixel on the right, takes it, drives to the backstage, places it, and waits
-            encoderDrive(27,4);
-            encoderRotate(24, 4);
-            // pick up pixel
-            encoderStrafe(27, 4);
-            encoderDrive(-81, 4);
-            encoderStrafe(-27, 4);
-            encoderRotate(-48, 4);
-            // drop off pixel
+            zoneArea = 3;
+            encoderDrive(20,8);
+            encoderRotate(24,8);
+            pushPixel(500);
+            encoderDrive(-20,8);
+            encoderStrafe(38,8);
 
         }
-
         telemetry.addData("Path", "Complete");
         telemetry.update();
         // pause to display final telemetry message.
@@ -227,6 +221,13 @@ public class EncoderAutonomous_BackRed extends LinearOpMode {
      *  2) Move runs out of time
      *  3) Driver stops the OpMode running.
      */
+
+    public void pushPixel(int sleep){
+        motorIntake.setPower(.4);
+        sleep(sleep);
+        motorIntake.setPower(0);
+        sleep(1000);
+    }
 
     //Modify encoderDriveForward to use all four wheels
     public void encoderDrive(double Inches, double timeoutS) {

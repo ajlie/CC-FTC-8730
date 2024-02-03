@@ -1,6 +1,5 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.CameraPipeline;
 
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -8,7 +7,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-import org.firstinspires.ftc.teamcode.OpenCvPipeline.BlackWhiteDetector;
+
 
 public class TeamElementSubsystem {
     OpenCvCamera camera;
@@ -42,7 +41,7 @@ public class TeamElementSubsystem {
 
 
     public int elementDetection(Telemetry telemetry) {
-        zone = splitAveragePipeline.get_element_zone();
+        zone = BlackWhiteDetector.get_element_zone();
         telemetry.addData("Element Zone", zone);
         return zone;
     }

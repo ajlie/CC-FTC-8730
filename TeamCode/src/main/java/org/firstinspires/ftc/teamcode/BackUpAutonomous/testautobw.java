@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.BackUpAutonomous;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -36,8 +36,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.OpenCvPipeline.BlackWhiteDetector;
-import org.firstinspires.ftc.teamcode.OpenCvPipeline.TeamElementSubsystem;
+import org.firstinspires.ftc.teamcode.CameraPipeline.BlackWhiteDetector;
+import org.firstinspires.ftc.teamcode.CameraPipeline.TeamElementSubsystem;
 
 
 
@@ -84,7 +84,7 @@ public class testautobw extends LinearOpMode {
 
 
     private ElapsedTime runtime = new ElapsedTime();
-    private BlackWhiteDetector BlackWhiteDetector=null;
+    private TeamElementSubsystem TeamElementSubsystem=null;
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
     // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
@@ -113,7 +113,7 @@ public class testautobw extends LinearOpMode {
         slideLeft = hardwareMap.get(DcMotor.class, "slide_left");
 
         /* change in future to match other hardware, assuming this is for the camera*/
-        BlackWhiteDetector = new TeamElementSubsystem(hardwareMap);
+        TeamElementSubsystem = new TeamElementSubsystem(hardwareMap);
 
         //use to connect to our detection for camera, and get zone
         BlackWhiteDetector obj = new BlackWhiteDetector();
@@ -154,26 +154,26 @@ public class testautobw extends LinearOpMode {
         dropPixel();
 
        int getZone = obj.get_element_zone();
-       if(getZone == 1){
-           /* LOGIC TO CODE */
-           //based on the zone, make this data go in as a parameter into april tags
-           //look for april tags in the specific zone, and change target tag to that specific one
-           // move robot to the board and general position, based on april tag, see if need to move robot a little more
-           // zone 1: left
-           // zone 2: center
-           // zone 3: right
-
-         encoderRotate(-24,8);
-
-       } else if (getZone == 2){
-
-         encoderDrive(10,8);
-
-       } else {
-
-        encoderRotate(24,8);
-
-       }
+//       if(getZone == 1){
+//           /* LOGIC TO CODE */
+//           //based on the zone, make this data go in as a parameter into april tags
+//           //look for april tags in the specific zone, and change target tag to that specific one
+//           // move robot to the board and general position, based on april tag, see if need to move robot a little more
+//           // zone 1: left
+//           // zone 2: center
+//           // zone 3: right
+//
+//         encoderRotate(-24,8);
+//
+//       } else if (getZone == 2){
+//
+//         encoderDrive(10,8);
+//
+//       } else {
+//
+//        encoderRotate(24,8);
+//
+//       }
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -198,19 +198,20 @@ public class testautobw extends LinearOpMode {
 
     public void dropPixel(){
         slideLeft.setPower(-1);
-        sleep(800);
+        sleep(300);
         grabberRotate.setPosition(.6);
-        slideLeft.setPower(-1);
-        sleep(5000);
-        grabberRotate.setPosition(.17);
-        grabberIntake.setPosition(.18);
-        grabberIntake.setPosition(.01);
-        grabberRotate.setPosition(.6);
-        slideLeft.setPower(1);
-        sleep(4000);
+//        slideLeft.setPower(-1);
+//        sleep(800);
+//        grabberRotate.setPosition(.17);
+//        grabberIntake.setPosition(.18);
+//        grabberIntake.setPosition(.01);
+//        grabberRotate.setPosition(.6);
+//        slideLeft.setPower(1);
+//        sleep(300);
     }
 
     public void gripPixel(){
+        grabberRotate.setPosition(.42);
         grabberIntake.setPosition(.01);
     }
 

@@ -67,7 +67,7 @@ import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElement
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutonomousEncoderFrontRed", group="Robot")
+@Autonomous(name="NO_USE4", group="Robot")
 //@Disabled
 public class EncoderAutonomous_FrontRed extends LinearOpMode {
 

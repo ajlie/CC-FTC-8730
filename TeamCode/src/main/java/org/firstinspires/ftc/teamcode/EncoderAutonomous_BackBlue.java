@@ -45,6 +45,11 @@ import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElement
 
 /*
  * This OpMode illustrates the concept of driving a path based on encoder counts.
+ *
+ *
+ *
+ *
+ *
  * The code is structured as a LinearOpMode
  *
  * The code REQUIRES that you DO have encoders on the wheels,
@@ -69,7 +74,7 @@ import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElement
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutonomousEncoderBackBlue", group="Robot")
+@Autonomous(name="NO_USE", group="Robot")
 //@Disabled
 public class EncoderAutonomous_BackBlue extends LinearOpMode {
 
@@ -190,29 +195,11 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
 
             // this portion of code  from the starting position
             // drives to the pixel on the left, takes it, drives to the backstage, places it, and parks
-            encoderDrive(27,4);
-            encoderRotate(-24,4);
-            // here put function to drop pixel by slowly spinning intake motor to eject pixel
+            encoderDrive(24,8);
+            encoderRotate(-24,8);
             pushPixel(500);
-
-            encoderRotate(27,4);
-            encoderDrive(10,4);
-
-            encoderStrafe(-30,4);
-            encoderRotate(-27, 4);
-
-
-
-
-            encoderDrive(-81, 4);
-            encoderRotate(-48, 4);
-
-            pushPixel(500);
-
-            encoderDrive(-5, 4);
-            encoderStrafe(16, 4);
-            encoderDrive(10, 4);
-
+            encoderStrafe(10,8);
+            encoderDrive(35,10);
 
 
 
@@ -221,40 +208,24 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
 
             // this portion of code  from the starting position
             // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
-            encoderDrive(27, 4);
-            encoderRotate(-24, 4);
-//            // function to drop pixel
-//            encoderDrive(-27, 4);
-//            encoderStrafe(-81, 4);
-//            encoderRotate(24, 4);
-//            encoderDrive(-13.5, 4);
-//            encoderStrafe(-22, 4);
-//            // function to drop off pixel
-//            encoderStrafe(22, 4);
-//            encoderDrive(-13.5, 4);
+            encoderDrive(22, 8);
+            pushPixel(500);
+            encoderRotate(-24,8);
+            encoderDrive(30,10);
+            encoderStrafe(10,8);
+            encoderDrive(10,5);
+
 
 
 
         } else {
             zoneArea = 3;
-
-//            // this portion of code  from the starting position
-//            // drives to the pixel on the right, takes it, drives to the backstage, places it, and waits
-//            encoderDrive(27,4);
-//            encoderRotate(24, 4);
-//            // drop off pixel
-//            encoderStrafe(27, 4);
-//            encoderDrive(-81, 4);
-//
-//
-//            encoderDrive(-13.5, 4);
-//            encoderStrafe(-28, 4);
-//
-//            // drop off pixel
-//
-//            encoderStrafe(28, 4);
-//            encoderDrive(-13.5, 4);
-            encoderStrafe(10,4);
+            encoderStrafe(24,8);
+            encoderRotate(24,8);
+            pushPixel(500);
+            encoderDrive(-30,8);
+            encoderStrafe(15,8);
+            encoderDrive(-10,8);
 
         }
 
@@ -281,10 +252,10 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
     }
 
     public void pushPixel(int sleep){
-        motorIntake.setPower(.3);
+        motorIntake.setPower(.4);
         sleep(sleep);
         motorIntake.setPower(0);
-        sleep(1000);w
+        sleep(1000);
     }
 
     public void pickUpPixel(int pixelNum){

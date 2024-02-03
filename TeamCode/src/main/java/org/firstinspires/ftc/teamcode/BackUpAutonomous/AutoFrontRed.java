@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.BackUpAutonomous;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -36,8 +36,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.OpenCvPipeline.BlackWhiteDetector;
-import org.firstinspires.ftc.teamcode.OpenCvPipeline.TeamElementSubsystem;
+import org.firstinspires.ftc.teamcode.CameraPipeline.BlackWhiteDetector;
+import org.firstinspires.ftc.teamcode.CameraPipeline.TeamElementSubsystem;
 
 
 
@@ -69,7 +69,7 @@ import org.firstinspires.ftc.teamcode.OpenCvPipeline.TeamElementSubsystem;
 
 @Autonomous(name="AutoFrontRed", group="Robot")
 //@Disabled
-public class AutoFrontBlue extends LinearOpMode {
+public class AutoFrontRed extends LinearOpMode {
 
 
     /* Declare OpMode members. */
@@ -84,7 +84,7 @@ public class AutoFrontBlue extends LinearOpMode {
 
 
     private ElapsedTime runtime = new ElapsedTime();
-    private BlackWhiteDetector BlackWhiteDetector=null;
+    private TeamElementSubsystem TeamElementSubsystem=null;
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
     // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
@@ -113,7 +113,7 @@ public class AutoFrontBlue extends LinearOpMode {
         slideLeft = hardwareMap.get(DcMotor.class, "slide_left");
 
         /* change in future to match other hardware, assuming this is for the camera*/
-        BlackWhiteDetector = new TeamElementSubsystem(hardwareMap);
+        TeamElementSubsystem  = new TeamElementSubsystem(hardwareMap);
 
         //use to connect to our detection for camera, and get zone
         BlackWhiteDetector obj = new BlackWhiteDetector();
