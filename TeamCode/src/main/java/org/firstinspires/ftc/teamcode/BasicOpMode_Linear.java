@@ -103,6 +103,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
+        liftEncoderReset();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -152,11 +153,11 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
             //for the robot slide to go up and down, limit switch is implemented 
             if(slideUp){
-                slideLeft.setPower(-1);
+                slideLeft.setTargetPosition(1);
             } else if (slideDown && !(limitSwitch.isPressed())){
-                slideLeft.setPower(1);
+                slideLeft.setTargetPosition(0);
             } else {
-                slideLeft.setPower(0);
+                slideLeft.setTargetPosition(0);
             }
 
 
@@ -225,5 +226,11 @@ public class BasicOpMode_Linear extends LinearOpMode {
             telemetry.update();
         }
         
+    }
+    public void liftEncoderReset() {
+        slideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 }
