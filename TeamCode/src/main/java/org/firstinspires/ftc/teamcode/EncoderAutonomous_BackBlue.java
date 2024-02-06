@@ -87,6 +87,7 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
 
     /* Declare DcMotor & Servo - Intake*/
     private DcMotor motorIntake = null;
+    private DcMotoe slideUp = null;
 
     private Servo rotateGrabber = null;
     private Servo intakeGrabber = null;
@@ -111,6 +112,9 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.14159);
     static final double DRIVE_SPEED = 1.0;
 
+    //change 123 number
+    static final double COUNT_UP_PER_INCH = COUNTS_PER_MOTOR_REV / 123;
+
     //for april tags
     int zoneArea = 0;
 
@@ -126,6 +130,7 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
         rotateGrabber = hardwareMap.get(Servo.class, "rotate_grabber");
         intakeGrabber = hardwareMap.get(Servo.class, "open_grabber");
         motorIntake = hardwareMap.get(DcMotor.class, "motor_intake");
+        slideUp = hardwareMap.get(DcMotor.class, "slide_left");
 
 
         /* change in future to match other hardware, assuming this is for the camera*/
@@ -155,12 +160,16 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
         backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        slideUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Starting at", "%7d :%7d",
                 frontLeftDrive.getCurrentPosition(),
                 frontRightDrive.getCurrentPosition(),
                 backLeftDrive.getCurrentPosition(),
-                backRightDrive.getCurrentPosition()
+                backRightDrive.getCurrentPosition(),
+                slideUp.getCurrentPosition()
         );
         telemetry.update();
 
@@ -270,6 +279,40 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
 
     }
 
+
+
+    public void encoderSlide (double Inches, double timeoutS){
+        int newSlideUpTarget;
+
+        if(opModeIsActive()){
+            newSlideUpTarget = slideUp.getCurrentPosition() + (int)(Inches * COUNT_UP_PER_INCH);
+            slideUp.setTargetPosition(newSlideUpTarget);
+            slideUp.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            
+
+
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (frontLeftDrive.isBusy() && frontRightDrive.isBusy() && backLeftDrive.isBusy() && backRightDrive.isBusy())) {
+
+                idle();
+                // Display it for the driver.
+                telemetry.addData("Running to", " %7d :%7d", slideUp.getTargetPosition());
+                telemetry.addData("Currently at", " at %7d :%7d",
+                        slideUp.getCurrentPosition());
+                telemetry.update();
+            }
+
+            slideUp.setPower(0);
+            slideUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            sleep(500);
+
+
+        }
+
+
+    }
 
     //Encoder Drive: Move Forward and Backwards
     public void encoderDrive(double Inches, double timeoutS) {
