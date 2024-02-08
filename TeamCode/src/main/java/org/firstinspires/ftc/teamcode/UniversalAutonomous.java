@@ -68,9 +68,9 @@ import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElement
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="TODAY-SafeBackBlue", group="Robot")
-//@Disabled
-public class SafeBackBlue extends LinearOpMode {
+@Autonomous(name="Universal Autonomous ", group="Robot")
+//Universal Camera Spike Detection without any parking
+public class UniversalAutonomous extends LinearOpMode {
 
 
     /* Declare OpMode members. */
@@ -151,18 +151,43 @@ public class SafeBackBlue extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        gripPixel();
+        int getZone = obj.get_element_zone();
+        if(getZone == 1){ //left spikemark
+            /* LOGIC TO CODE */
+            //drop pixel on spike mark and park in correct spot
+            // zone 1: left
+            // zone 2: center
+            //zone 3: right
 
-        sleep(1000);
-        encoderRotate(-24,10);
-        encoderStrafe(40,10);
-        encoderDrive(72,10);
-        encoderStrafe(-26,8);
-        encoderRotate(-48,8);
-        encoderDrive(-11,8);
-        dropPixel();
-        encoderStrafe(18, 8);
-        encoderDrive(-10,8);
+            // this portion of code  from the starting position
+            // drives to the pixel on the left, takes it, drives to the backstage, places it, and parks
+            encoderDrive(25,8);
+            encoderRotate(-24,8);
+            pushPixel(500);
+            encoderDrive(-5,8);
+
+
+
+        } else if (getZone == 2){ //center spikemark
+
+            // this portion of code  from the starting position
+            // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
+            encoderDrive(20, 8);
+            encoderStrafe(-10,8);
+            pushPixel(500);
+            encoderDrive(-5,8);
+
+
+
+
+        } else { //right spikemark
+
+            encoderDrive(24,8);
+            encoderRotate(24,8);
+            pushPixel(500);
+            encoderDrive(-5,8);
+
+        }
 
 
         telemetry.addData("Path", "Complete");
@@ -184,9 +209,10 @@ public class SafeBackBlue extends LinearOpMode {
     }
 
     public void pushPixel(int sleep){
-        motorIntake.setPower(-.3);
+        motorIntake.setPower(.4);
         sleep(sleep);
         motorIntake.setPower(0);
+        sleep(1000);
     }
 
     public void dropPixel(){
