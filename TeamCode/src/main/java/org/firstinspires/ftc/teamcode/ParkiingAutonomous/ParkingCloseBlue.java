@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.ParkiingAutonomous;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -69,7 +69,7 @@ import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElement
 
 @Autonomous(name="TODAY-SafeFrontBlue", group="Robot")
 //@Disabled
-public class SafeFrontBlue extends LinearOpMode {
+public class ParkingCloseBlue extends LinearOpMode {
 
 
     /* Declare OpMode members. */
@@ -150,16 +150,11 @@ public class SafeFrontBlue extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        gripPixel();
+        sleep(1000);
+        encoderDrive(5,8);
+        encoderStrafe(-34,8);
 
-//        sleep(1000);
-        encoderDrive(3,8);
-        encoderRotate(24,10);
-        encoderDrive(-34,8);
 
-//        dropPixel();
-//        encoderStrafe(15, 8);
-//        encoderDrive(-10,8);
 
 
         telemetry.addData("Path", "Complete");
