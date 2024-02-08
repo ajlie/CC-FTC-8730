@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.ParkiingAutonomous;
+package org.firstinspires.ftc.teamcode.ParkingAutonomous;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -36,7 +36,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.Pipeline.SplitAveragePipeline;
 import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElementSubsystem;
 
 
@@ -67,9 +66,9 @@ import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElement
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="TODAY-SafeFrontBlue", group="Robot")
+@Autonomous(name="P - close red", group="Robot")
 //@Disabled
-public class ParkingCloseBlue extends LinearOpMode {
+public class ParkingCloseRed extends LinearOpMode {
 
 
     /* Declare OpMode members. */
@@ -115,8 +114,7 @@ public class ParkingCloseBlue extends LinearOpMode {
         /* change in future to match other hardware, assuming this is for the camera*/
         teamElementDetection = new TeamElementSubsystem(hardwareMap);
 
-        //use to connect to our detection for camera, and get zone
-        SplitAveragePipeline obj = new SplitAveragePipeline();
+
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -150,10 +148,11 @@ public class ParkingCloseBlue extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        sleep(1000);
-        encoderDrive(5,8);
-        encoderStrafe(-34,8);
 
+
+        sleep(1000);
+        encoderDrive(10,8);
+        encoderStrafe(30,8);
 
 
 
