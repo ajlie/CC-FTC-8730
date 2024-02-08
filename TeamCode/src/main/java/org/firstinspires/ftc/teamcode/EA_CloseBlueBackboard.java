@@ -74,10 +74,9 @@ import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElement
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="NO_USE", group="Robot")
-//@Disabled
-public class EncoderAutonomous_BackBlue extends LinearOpMode {
-
+@Autonomous(name="Close Backboard Blue", group="Robot")
+//Autonomous for close to backboard blue
+public class EA_CloseBlueBackboard extends LinearOpMode {
 
     /* Declare DcMotors - Wheels */
     private DcMotor frontLeftDrive = null;
@@ -85,20 +84,19 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
     private DcMotor backLeftDrive = null;
     private DcMotor backRightDrive = null;
 
+
     /* Declare DcMotor & Servo - Intake*/
     private DcMotor motorIntake = null;
-    private DcMotoe slideUp = null;
+    private DcMotor slideUp = null;
 
     private Servo rotateGrabber = null;
     private Servo intakeGrabber = null;
 
-
-
     private ElapsedTime runtime = new ElapsedTime();
 
-
-
+    //Declare Pipeline Subsystem
     private TeamElementSubsystem teamElementDetection=null;
+
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
     // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
@@ -112,10 +110,10 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.14159);
     static final double DRIVE_SPEED = 1.0;
 
-    //change 123 number
+    //change 123 number for slide
     static final double COUNT_UP_PER_INCH = COUNTS_PER_MOTOR_REV / 123;
 
-    //for april tags
+    //for zone dropping on the backboard
     int zoneArea = 0;
 
     @Override
@@ -148,18 +146,19 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
 
 
-        //Add back motors below here:
+        //Add motors here to reset to encoders
         frontLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-
+        //for motors to run using encoders
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        //for slide intake to run with encoders
         slideUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -191,50 +190,55 @@ public class EncoderAutonomous_BackBlue extends LinearOpMode {
 
         //figure out certain rotation for the robot to place pixel perfectly
         int getZone = obj.get_element_zone();
-        if(getZone == 1){
+        if(getZone == 1){ //left spikemark
             /* LOGIC TO CODE */
-            //based on the zone, make this data go in as a parameter into april tags
-            //look for april tags in the specific zone, and change target tag to that specific one
-            // move robot to the board and general position, based on april tag, see if need to move robot a little more
+            //drop pixel on spike mark and park in correct spot
             // zone 1: left
             // zone 2: center
             //zone 3: right
 
+            //setting current zone area for dropping pixel on backboard
             zoneArea = 1;
 
             // this portion of code  from the starting position
             // drives to the pixel on the left, takes it, drives to the backstage, places it, and parks
-            encoderDrive(24,8);
+            encoderDrive(25,8);
             encoderRotate(-24,8);
             pushPixel(500);
-            encoderStrafe(10,8);
-            encoderDrive(35,10);
+            encoderStrafe(-20,8);
+            encoderDrive(34,10);
 
 
 
-        } else if (getZone == 2){
+        } else if (getZone == 2){ //center spikemark
+
+
+            //setting current zone area for dropping pixel on backboard
             zoneArea = 2;
 
             // this portion of code  from the starting position
             // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
-            encoderDrive(22, 8);
+            encoderDrive(20, 8);
+            encoderStrafe(-10,8);
             pushPixel(500);
+            encoderDrive(-10,8);
             encoderRotate(-24,8);
-            encoderDrive(30,10);
-            encoderStrafe(10,8);
-            encoderDrive(10,5);
+            encoderStrafe(-28,10);
+            encoderDrive(35,8);
 
 
 
 
-        } else {
+        } else { //right spikemark
+
+            //setting zone area 3
             zoneArea = 3;
-            encoderStrafe(24,8);
+
+            encoderDrive(24,8);
             encoderRotate(24,8);
             pushPixel(500);
-            encoderDrive(-30,8);
-            encoderStrafe(15,8);
-            encoderDrive(-10,8);
+            encoderStrafe(20,8);
+            encoderDrive(-35,8);
 
         }
 
