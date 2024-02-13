@@ -29,11 +29,9 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -53,9 +51,9 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Linear OpMode", group="Linear OpMode")
+@TeleOp(name="Basic: Linear OpMode Encoders", group="Linear OpMode")
 //@Disabled
-public class BasicOpMode_Linear extends LinearOpMode {
+public class BasicOpMode_Linear_Encoders extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -99,12 +97,12 @@ public class BasicOpMode_Linear extends LinearOpMode {
         // frontLeft & backRight should be in reverse
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        slideLeft.setDirection(DcMotor.Direction.REVERSE);
 
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
+        liftEncoderReset();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -154,14 +152,15 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
             //for the robot slide to go up and down, limit switch is implemented 
             if(slideUp){
+
                 slideLeft.setPower(1);
-            } else if (slideDown && !(limitSwitch.isPressed())){
+
+            } else if (slideDown && !(limitSwitch.isPressed()) && !(slideLeft.getCurrentPosition() <= 0)){
                 slideLeft.setPower(-1);
             } else {
                 slideLeft.setPower(0);
             }
 
-            slideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 
@@ -210,6 +209,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
 
 
+
             frontleftPower   = Range.clip(drive + turn + strafe, -1.0, 1.0) ;
             frontrightPower  = Range.clip(drive - turn - strafe, -1.0, 1.0) ;
             backleftPower    = Range.clip(drive + turn - strafe, -1.0, 1.0) ;
@@ -225,11 +225,16 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "front left (%.2f), front right (%.2f), back left (%.2f), back right (%.2f)",
-                    frontleftPower, frontrightPower, backleftPower, backrightPower);
+            telemetry.addData("Lift Motor", "Encoder Value (%.2f)",
+                    slideLeft.getCurrentPosition());
             telemetry.update();
         }
         
     }
-
+    public void liftEncoderReset() {
+        slideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //slideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
 }

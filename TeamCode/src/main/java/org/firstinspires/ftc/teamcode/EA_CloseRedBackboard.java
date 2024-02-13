@@ -37,11 +37,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.Pipeline.SplitAveragePipeline;
 import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElementSubsystem;
-import org.openftc.easyopencv.OpenCvCamera;
-
-
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 
@@ -72,9 +67,9 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="NO_USE2", group="Robot")
+@Autonomous(name="Close Backboard Red", group="Robot")
 //@Disabled
-public class EncoderAutonomous_BackRed extends LinearOpMode {
+public class EA_CloseRedBackboard extends LinearOpMode {
 
 
     /* Declare OpMode members. */
@@ -105,8 +100,6 @@ public class EncoderAutonomous_BackRed extends LinearOpMode {
     public void runOpMode() {
         String currentAlliance = "red";
         teamElementDetection.setAlliance(currentAlliance);
-
-        int zoneArea = 0;
 
         // Initialize the drive system variables.
         frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_motor");
@@ -171,36 +164,25 @@ public class EncoderAutonomous_BackRed extends LinearOpMode {
             //zone 3: right
 
 
-            // this portion of code  from the starting position
-            // drives to the pixel on the left, takes it, drives to the backstage, places it, and parks
-
-            encoderDrive(20,8);
-            encoderRotate(-24,8);
+            encoderDrive(22,10);
+            encoderStrafe(-24,10);
             pushPixel(500);
-            encoderStrafe(-20,8);
-            encoderDrive(40,8);
+            encoderStrafe(-15,10);
+            encoderDrive(-30,10);
 
 
 
 
         } else if (getZone == 2){
-            zoneArea = 2;
-
-            // this portion of code  from the starting position
-            // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
-            encoderDrive(24, 8);
-            encoderStrafe(-8,8);
+            encoderDrive(22,10);
+            encoderStrafe(-5,10);
             pushPixel(500);
-            encoderRotate(-24,8);
-            encoderDrive(36,10);
-            encoderStrafe(20,8);
-            encoderDrive(15,5);
+
 
 
 
 
         } else {
-            zoneArea = 3;
             encoderDrive(20,8);
             encoderRotate(24,8);
             pushPixel(500);
