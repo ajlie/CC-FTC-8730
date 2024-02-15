@@ -98,8 +98,6 @@ public class EA_CloseRedBackboard extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        String currentAlliance = "red";
-        teamElementDetection.setAlliance(currentAlliance);
 
         // Initialize the drive system variables.
         frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_motor");
@@ -113,6 +111,7 @@ public class EA_CloseRedBackboard extends LinearOpMode {
 
         //use to connect to our detection for camera, and get zone
         SplitAveragePipeline obj = new SplitAveragePipeline();
+        teamElementDetection.setAlliance("red");
 
 
         //use to connect to our detection for camera, and get zone
@@ -165,18 +164,22 @@ public class EA_CloseRedBackboard extends LinearOpMode {
 
 
             encoderDrive(22,10);
-            encoderStrafe(-24,10);
+            encoderRotate(-24,10);
             pushPixel(500);
-            encoderStrafe(-15,10);
-            encoderDrive(-30,10);
+            encoderStrafe(-10,10);
+            encoderDrive(-28,10);
 
 
 
 
         } else if (getZone == 2){
-            encoderDrive(22,10);
-            encoderStrafe(-5,10);
+            encoderDrive(22, 8);
+            encoderStrafe(-5,8);
             pushPixel(500);
+            encoderDrive(-8,8);
+            encoderRotate(24,8);
+            encoderStrafe(15,10);
+            encoderDrive(28,8);
 
 
 

@@ -205,7 +205,7 @@ public class EA_CloseBlueBackboard extends LinearOpMode {
             encoderDrive(25,8);
             encoderRotate(-24,8);
             pushPixel(500);
-            encoderStrafe(-20,8);
+            encoderStrafe(-20,20);
             encoderDrive(34,10);
 
 
@@ -218,24 +218,24 @@ public class EA_CloseBlueBackboard extends LinearOpMode {
 
             // this portion of code  from the starting position
             // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
-            encoderDrive(20, 8);
-            encoderStrafe(-10,8);
+            encoderDrive(22, 8);
+            encoderStrafe(-5,8);
             pushPixel(500);
-            encoderDrive(-10,8);
+            encoderDrive(-8,8);
             encoderRotate(-24,8);
-            encoderStrafe(-28,10);
+            encoderStrafe(-18,10);
             encoderDrive(35,8);
 
 
 
 
         } else { //right spikemark
-
             //setting zone area 3
             zoneArea = 3;
 
-            encoderDrive(24,8);
+            encoderDrive(25,8);
             encoderRotate(24,8);
+            encoderDrive(2,8);
             pushPixel(500);
             encoderStrafe(20,8);
             encoderDrive(-35,8);

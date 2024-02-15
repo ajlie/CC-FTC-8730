@@ -155,7 +155,7 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
 
                 slideLeft.setPower(1);
 
-            } else if (slideDown && !(limitSwitch.isPressed()) && !(slideLeft.getCurrentPosition() <= 0)){
+            } else if (slideDown && !(limitSwitch.isPressed()) && !((int)(slideLeft.getCurrentPosition()) <= 0)){
                 slideLeft.setPower(-1);
             } else {
                 slideLeft.setPower(0);
@@ -195,7 +195,7 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
 
             //drone launch - END GAME
             if(droneLauncher){
-                droneLaunch.setPosition(.5);
+                droneLaunch.setPosition(1);
             }
 
             //Lift Robo Up, go robo go robo
@@ -235,6 +235,6 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
         slideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //slideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        slideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 }

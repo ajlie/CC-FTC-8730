@@ -196,7 +196,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
             //drone launch - END GAME
             if(droneLauncher){
-                droneLaunch.setPosition(.5);
+                droneLaunch.setPosition(1);
             }
 
             //Lift Robo Up, go robo go robo
