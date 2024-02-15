@@ -97,7 +97,7 @@ public class UniversalAutonomous extends LinearOpMode {
     static final double WHEEL_DIAMETER_INCHES = 11;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION ) /
             (WHEEL_DIAMETER_INCHES * 3.14159);
-    static final double DRIVE_SPEED = 1.0;
+    static final double DRIVE_SPEED = 0.5;
 
     @Override
     public void runOpMode() {
@@ -120,7 +120,6 @@ public class UniversalAutonomous extends LinearOpMode {
         SplitAveragePipeline obj = new SplitAveragePipeline();
 
         teamElementDetection.setAlliance("blue");
-
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -154,6 +153,7 @@ public class UniversalAutonomous extends LinearOpMode {
         waitForStart();
 
         int getZone = obj.get_element_zone();
+
         if(getZone == 1){ //left spikemark
             /* LOGIC TO CODE */
             //drop pixel on spike mark and park in correct spot
