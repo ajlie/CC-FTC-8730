@@ -214,6 +214,7 @@ public class EA_CloseRedBackboard extends LinearOpMode {
         sleep(1000);
     }
 
+
     //Modify encoderDriveForward to use all four wheels
     public void encoderDrive(double Inches, double timeoutS) {
         //This function takes a distance in inches and timeout in seconds, both as doubles.
