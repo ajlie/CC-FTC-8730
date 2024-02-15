@@ -94,7 +94,7 @@ public class EA_CloseRedBackboard extends LinearOpMode {
     static final double WHEEL_DIAMETER_INCHES = 11;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION ) /
             (WHEEL_DIAMETER_INCHES * 3.14159);
-    static final double DRIVE_SPEED = 1.0;
+    static final double DRIVE_SPEED = .5;
 
     @Override
     public void runOpMode() {
@@ -162,14 +162,11 @@ public class EA_CloseRedBackboard extends LinearOpMode {
             // zone 2: center
             //zone 3: right
 
-
             encoderDrive(22,10);
             encoderRotate(-24,10);
             pushPixel(500);
             encoderStrafe(-10,10);
             encoderDrive(-28,10);
-
-
 
 
         } else if (getZone == 2){
