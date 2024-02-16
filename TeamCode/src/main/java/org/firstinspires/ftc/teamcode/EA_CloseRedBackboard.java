@@ -165,8 +165,8 @@ public class EA_CloseRedBackboard extends LinearOpMode {
             encoderDrive(22,10);
             encoderRotate(-24,10);
             pushPixel(500);
-            encoderStrafe(-10,10);
-            encoderDrive(-28,10);
+            encoderStrafe(-22,10);
+            encoderDrive(-34,10);
 
 
         } else if (getZone == 2){
@@ -176,7 +176,7 @@ public class EA_CloseRedBackboard extends LinearOpMode {
             encoderDrive(-8,8);
             encoderRotate(24,8);
             encoderStrafe(15,10);
-            encoderDrive(28,8);
+            encoderDrive(31,8);
 
 
 

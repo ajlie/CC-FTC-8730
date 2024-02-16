@@ -151,15 +151,16 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
 
 
             //for the robot slide to go up and down, limit switch is implemented 
-            if(slideUp){
-
-                slideLeft.setPower(1);
-
-            } else if (slideDown && !(limitSwitch.isPressed()) && !((int)(slideLeft.getCurrentPosition()) <= 0)){
+            while(slideUp) {
+                liftEncoderReset();
+                slideLeft.setTargetPosition(3000);
                 slideLeft.setPower(-1);
-            } else {
-                slideLeft.setPower(0);
             }
+//            } else if (slideDown && !(limitSwitch.isPressed()) && !((int)(slideLeft.getCurrentPosition()) <= 0)){
+//                slideLeft.setPower(1);
+//            } else {
+//                slideLeft.setPower(0);
+//            }
 
 
 
@@ -225,7 +226,7 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Lift Motor", "Encoder Value (%.2f)",
+            telemetry.addData("Lift Motor", "Encoder Value (%d)",
                     slideLeft.getCurrentPosition());
             telemetry.update();
         }
