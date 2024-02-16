@@ -74,9 +74,9 @@ import org.firstinspires.ftc.teamcode.Subsystem.TeamElementDetection.TeamElement
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Close Backboard Blue", group="Robot")
+@Autonomous(name="Close Backboard Blue Copy", group="Robot")
 //Autonomous for close to backboard blue
-public class EA_CloseBlueBackboard extends LinearOpMode {
+public class EA_CloseBlueBackboard_copy extends LinearOpMode {
 
     /* Declare DcMotors - Wheels */
     private DcMotor frontLeftDrive = null;
@@ -111,7 +111,7 @@ public class EA_CloseBlueBackboard extends LinearOpMode {
     static final double DRIVE_SPEED = .5;
 
     //change 123 number for slide
-    static final double COUNT_UP_PER_INCH = COUNTS_PER_MOTOR_REV / 123;
+    static final double COUNT_UP_PER_INCH = COUNTS_PER_MOTOR_REV / 10;
 
     //for zone dropping on the backboard
     int zoneArea = 0;
@@ -188,59 +188,7 @@ public class EA_CloseBlueBackboard extends LinearOpMode {
 
 
 
-        //figure out certain rotation for the robot to place pixel perfectly
-        int getZone = obj.get_element_zone();
-        if(getZone == 1){ //left spikemark
-            /* LOGIC TO CODE */
-            //drop pixel on spike mark and park in correct spot
-            // zone 1: left
-            // zone 2: center
-            //zone 3: right
-
-            //setting current zone area for dropping pixel on backboard
-            zoneArea = 1;
-
-            // this portion of code  from the starting position
-            // drives to the pixel on the left, takes it, drives to the backstage, places it, and parks
-            encoderDrive(25,8);
-            encoderRotate(-24,8);
-            pushPixel(500);
-            encoderStrafe(-20,20);
-            encoderDrive(34,10);
-
-
-
-        } else if (getZone == 2){ //center spikemark
-
-
-            //setting current zone area for dropping pixel on backboard
-            zoneArea = 2;
-
-            // this portion of code  from the starting position
-            // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
-            encoderDrive(22, 8);
-            encoderStrafe(-5,8);
-            pushPixel(500);
-            encoderDrive(-8,8);
-            encoderRotate(-24,8);
-            encoderStrafe(-18,10);
-            encoderDrive(35,8);
-
-
-
-
-        } else { //right spikemark
-            //setting zone area 3
-            zoneArea = 3;
-
-            encoderDrive(25,8);
-            encoderRotate(24,8);
-            encoderDrive(2,8);
-            pushPixel(500);
-            encoderStrafe(20,8);
-            encoderDrive(-35,8);
-
-        }
+        encoderSlide(5,10);
 
 
         telemetry.addData("Path", "Complete");
@@ -290,20 +238,22 @@ public class EA_CloseBlueBackboard extends LinearOpMode {
 
         if(opModeIsActive()){
             newSlideUpTarget = slideUp.getCurrentPosition() + (int)(Inches * COUNT_UP_PER_INCH);
-            slideUp.setTargetPosition(newSlideUpTarget);
+            slideUp.setTargetPosition(-newSlideUpTarget);
             slideUp.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            
+
+            runtime.reset();
+            slideUp.setPower(1);
 
 
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (frontLeftDrive.isBusy() && frontRightDrive.isBusy() && backLeftDrive.isBusy() && backRightDrive.isBusy())) {
+                    (slideUp.isBusy())) {
 
                 idle();
-                // Display it for the driver.
-                telemetry.addData("Running to", " %7d :%7d", slideUp.getTargetPosition());
-                telemetry.addData("Currently at", " at %7d :%7d",
-                        slideUp.getCurrentPosition());
+//                // Display it for the driver.
+//                telemetry.addData("Running to", " %d :%d", slideUp.getTargetPosition());
+//                telemetry.addData("Currently at", " %d :%d",
+//                        slideUp.getCurrentPosition());
                 telemetry.update();
             }
 
