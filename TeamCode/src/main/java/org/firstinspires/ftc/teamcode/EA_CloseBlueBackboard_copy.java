@@ -111,7 +111,7 @@ public class EA_CloseBlueBackboard_copy extends LinearOpMode {
     static final double DRIVE_SPEED = .5;
 
     //change 123 number for slide
-    static final double COUNT_UP_PER_INCH = COUNTS_PER_MOTOR_REV / 2.5;
+    static final double COUNT_UP_PER_INCH = COUNTS_PER_MOTOR_REV / 3.5;
 
     //for zone dropping on the backboard
     int zoneArea = 0;

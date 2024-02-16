@@ -151,10 +151,8 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
 
 
             //for the robot slide to go up and down, limit switch is implemented 
-            while(slideUp) {
-                liftEncoderReset();
-                slideLeft.setTargetPosition(3000);
-                slideLeft.setPower(-1);
+            while(slideUp && !(slideLeft.isBusy())) {
+                liftEncoderRise();
             }
 //            } else if (slideDown && !(limitSwitch.isPressed()) && !((int)(slideLeft.getCurrentPosition()) <= 0)){
 //                slideLeft.setPower(1);
@@ -237,5 +235,11 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
         slideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        slideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void liftEncoderRise() {
+        liftEncoderReset();
+        slideLeft.setTargetPosition(3000);
+        slideLeft.setPower(-1);
     }
 }
