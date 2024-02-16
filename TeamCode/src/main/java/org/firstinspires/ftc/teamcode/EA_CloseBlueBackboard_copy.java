@@ -187,9 +187,9 @@ public class EA_CloseBlueBackboard_copy extends LinearOpMode {
 
 
 
-
-        encoderSlide(5,10);
-        pickUpPixel(0);
+        gripPixel();
+        placePixel();
+        
 
 
         telemetry.addData("Path", "Complete");
@@ -215,19 +215,17 @@ public class EA_CloseBlueBackboard_copy extends LinearOpMode {
         sleep(1000);
     }
 
-    public void pickUpPixel(int pixelNum){
-        if(pixelNum == 1){
-            intakeGrabber.setPosition(.2);
-            rotateGrabber.setPosition(.1);
-        }
-        if(pixelNum == 2){
-            intakeGrabber.setPosition(.3);
-            rotateGrabber.setPosition(.1);
-        }
-        if(pixelNum == 0){
-            intakeGrabber.setPosition(.01)
-        }
+    public void gripPixel(){
+        intakeGrabber.setPosition(.01)
 
+    }
+
+    public void placePixel(){
+        encoderSlide(3,10);
+        rotateGrabber.setPosition(.6);
+        encoderSlide(5,10);
+        rotateGrabber.setPosition(.17);
+        intakeGrabber.setPosition(.18);
     }
 
 
