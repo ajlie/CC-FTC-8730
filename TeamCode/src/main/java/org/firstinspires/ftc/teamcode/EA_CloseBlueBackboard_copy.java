@@ -111,7 +111,7 @@ public class EA_CloseBlueBackboard_copy extends LinearOpMode {
     static final double DRIVE_SPEED = .5;
 
     //change 123 number for slide
-    static final double COUNT_UP_PER_INCH = COUNTS_PER_MOTOR_REV / 10;
+    static final double COUNT_UP_PER_INCH = COUNTS_PER_MOTOR_REV / 2.5;
 
     //for zone dropping on the backboard
     int zoneArea = 0;
@@ -189,6 +189,7 @@ public class EA_CloseBlueBackboard_copy extends LinearOpMode {
 
 
         encoderSlide(5,10);
+        pickUpPixel(0);
 
 
         telemetry.addData("Path", "Complete");
@@ -206,11 +207,6 @@ public class EA_CloseBlueBackboard_copy extends LinearOpMode {
      */
 
 
-    public void takePixel(int sleep){
-        motorIntake.setPower(1);
-        sleep(sleep);
-        motorIntake.setPower(0);
-    }
 
     public void pushPixel(int sleep){
         motorIntake.setPower(.4);
@@ -221,12 +217,15 @@ public class EA_CloseBlueBackboard_copy extends LinearOpMode {
 
     public void pickUpPixel(int pixelNum){
         if(pixelNum == 1){
-            intakeGrabber.setPosition(0.2);
+            intakeGrabber.setPosition(.2);
             rotateGrabber.setPosition(.1);
         }
         if(pixelNum == 2){
             intakeGrabber.setPosition(.3);
             rotateGrabber.setPosition(.1);
+        }
+        if(pixelNum == 0){
+            intakeGrabber.setPosition(.01)
         }
 
     }
@@ -250,10 +249,6 @@ public class EA_CloseBlueBackboard_copy extends LinearOpMode {
                     (slideUp.isBusy())) {
 
                 idle();
-//                // Display it for the driver.
-//                telemetry.addData("Running to", " %d :%d", slideUp.getTargetPosition());
-//                telemetry.addData("Currently at", " %d :%d",
-//                        slideUp.getCurrentPosition());
                 telemetry.update();
             }
 
