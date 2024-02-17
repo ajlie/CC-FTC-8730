@@ -95,7 +95,8 @@ public class UniversalAutonomous extends LinearOpMode {
     static final double COUNTS_PER_MOTOR_REV = 1440;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1.0;     // No External Gearing.
     static final double WHEEL_DIAMETER_INCHES = 11;     // For figuring circumference
-    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION ) /
+    static final double
+            COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION ) /
             (WHEEL_DIAMETER_INCHES * 3.14159);
     static final double DRIVE_SPEED = 0.5;
 
@@ -174,8 +175,7 @@ public class UniversalAutonomous extends LinearOpMode {
 
             // this portion of code  from the starting position
             // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
-            encoderDrive(20, 8);
-            encoderStrafe(-10,8);
+            encoderDrive(21, 8);
             pushPixel(500);
             encoderDrive(-5,8);
 

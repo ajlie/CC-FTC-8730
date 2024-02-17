@@ -69,6 +69,7 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
     private TouchSensor limitSwitch;
     private Servo droneLaunch;
 
+    static final double COUNT_UP_PER_INCH = 1440 / 3.5;
 
     @Override
     public void runOpMode() {
@@ -102,7 +103,7 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-        liftEncoderReset();
+
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -139,6 +140,8 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
             boolean rotateBack = gamepad2.dpad_down;
             boolean rotateLeft = gamepad2.dpad_left;
 
+            liftEncoderReset();
+
 
             //for intake movement
             if(intakeKicker){
@@ -151,8 +154,8 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
 
 
             //for the robot slide to go up and down, limit switch is implemented 
-            while(slideUp && !(slideLeft.isBusy())) {
-                liftEncoderRise();
+            if(slideUp && !(slideLeft.isBusy())) {
+                liftEncoderRise(13, 10);
             }
 //            } else if (slideDown && !(limitSwitch.isPressed()) && !((int)(slideLeft.getCurrentPosition()) <= 0)){
 //                slideLeft.setPower(1);
@@ -226,6 +229,7 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Lift Motor", "Encoder Value (%d)",
                     slideLeft.getCurrentPosition());
+
             telemetry.update();
         }
         
@@ -234,12 +238,22 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
         slideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        slideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void liftEncoderRise() {
-        liftEncoderReset();
-        slideLeft.setTargetPosition(3000);
-        slideLeft.setPower(-1);
+    public void liftEncoderRise(int Inches, double timeout) {
+        int newSlideTarget;
+
+        if (opModeIsActive()) {
+            newSlideTarget = slideLeft.getCurrentPosition() + (int)(Inches * COUNT_UP_PER_INCH);
+            slideLeft.setTargetPosition(-newSlideTarget);
+            slideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            runtime.reset();
+            slideLeft.setPower(-0.5);
+
+            while (opModeIsActive() && (runtime.seconds() < timeout) && slideLeft.isBusy()) {};
+
+            slideLeft.setPower(0);
+            slideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
     }
 }

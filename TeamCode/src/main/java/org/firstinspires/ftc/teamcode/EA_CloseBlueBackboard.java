@@ -218,12 +218,12 @@ public class EA_CloseBlueBackboard extends LinearOpMode {
 
             // this portion of code  from the starting position
             // drives to the pixel in the middle, takes it, drives to the backstage, places it, and waits
-            encoderDrive(22, 8);
-            encoderStrafe(-5,8);
+            encoderDrive(23, 8);
+            encoderStrafe(-2,8);
             pushPixel(500);
             encoderDrive(-8,8);
             encoderRotate(-24,8);
-            encoderStrafe(-18,10);
+            encoderStrafe(-12,10);
             encoderDrive(35,8);
 
 
@@ -237,7 +237,8 @@ public class EA_CloseBlueBackboard extends LinearOpMode {
             encoderRotate(24,8);
             encoderDrive(2,8);
             pushPixel(500);
-            encoderStrafe(20,8);
+            encoderDrive(-2, 8);
+            encoderStrafe(19,8);
             encoderDrive(-35,8);
 
         }

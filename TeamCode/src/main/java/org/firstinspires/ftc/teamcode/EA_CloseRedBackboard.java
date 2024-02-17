@@ -186,8 +186,8 @@ public class EA_CloseRedBackboard extends LinearOpMode {
             encoderDrive(20,8);
             encoderRotate(24,8);
             pushPixel(500);
-            encoderDrive(-20,8);
-            encoderStrafe(38,8);
+            encoderStrafe(20, 8);
+            encoderDrive(34,8);
 
         }
         telemetry.addData("Path", "Complete");
