@@ -165,7 +165,7 @@ public class UniversalAutonomous extends LinearOpMode {
             // this portion of code  from the starting position
             // drives to the pixel on the left, takes it, drives to the backstage, places it, and parks
             encoderDrive(25,8);
-            encoderRotate(-24,8);
+            encoderRotate(-23,8);
             pushPixel(500);
             encoderDrive(-5,8);
 
@@ -185,7 +185,7 @@ public class UniversalAutonomous extends LinearOpMode {
         } else { //right spikemark
 
             encoderDrive(24,8);
-            encoderRotate(24,8);
+            encoderRotate(23,8);
             pushPixel(500);
             encoderDrive(-5,8);
 
