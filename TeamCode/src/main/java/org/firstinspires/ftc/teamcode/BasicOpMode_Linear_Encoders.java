@@ -69,7 +69,6 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
     private TouchSensor limitSwitch;
     private Servo droneLaunch;
 
-    static final double COUNT_UP_PER_INCH = 1440 / 3.5;
 
     @Override
     public void runOpMode() {
@@ -98,12 +97,15 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
         // frontLeft & backRight should be in reverse
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        slideLeft.setDirection(DcMotor.Direction.REVERSE);
+
+        slideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -140,8 +142,6 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
             boolean rotateBack = gamepad2.dpad_down;
             boolean rotateLeft = gamepad2.dpad_left;
 
-            liftEncoderReset();
-
 
             //for intake movement
             if(intakeKicker){
@@ -154,16 +154,34 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
 
 
             //for the robot slide to go up and down, limit switch is implemented 
-            if(slideUp && !(slideLeft.isBusy())) {
-                liftEncoderRise(13, 10);
+            //GOAL: Read out position of the lift to the telemetry.
+
+            int liftPosition = slideLeft.getCurrentPosition();
+
+            if(slideUp){
+                slideLeft.setPower(1);
+            } else if (slideDown && !limitSwitch.isPressed()){
+                slideLeft.setPower(-1);
+            } else {
+                slideLeft.setPower(0);
             }
-//            } else if (slideDown && !(limitSwitch.isPressed()) && !((int)(slideLeft.getCurrentPosition()) <= 0)){
-//                slideLeft.setPower(1);
-//            } else {
-//                slideLeft.setPower(0);
-//            }
+/*
+Possible start to a 'run to position' lift code. If you want to add more than
+two positions to your run-to-position code, look into 'switch' statements.
 
+            if(slideUp){
+                slideLeft.setTargetPosition(2345);
+                slideLeft.setPower(1);
+                while(slideLeft.isBusy()){
+                }; //see autonomous code for safer version of this while loop.
+                slideLeft.setPower(0):
 
+            } else if (slideDown && !limitSwitch.isPressed()){
+                slideLeft.setPower(-1);
+            } else {
+                slideLeft.setPower(0);
+            }
+*/
 
 
             //servos can only rotate 180 degrees, can get close to 0 but never negative
@@ -211,7 +229,6 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
 
 
 
-
             frontleftPower   = Range.clip(drive + turn + strafe, -1.0, 1.0) ;
             frontrightPower  = Range.clip(drive - turn - strafe, -1.0, 1.0) ;
             backleftPower    = Range.clip(drive + turn - strafe, -1.0, 1.0) ;
@@ -226,34 +243,14 @@ public class BasicOpMode_Linear_Encoders extends LinearOpMode {
 
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Lift Motor", "Encoder Value (%d)",
-                    slideLeft.getCurrentPosition());
+            //telemetry.addData("Status", "Run Time: " + runtime.toString());
+            //telemetry.addData("Motors", "front left (%.2f), front right (%.2f), back left (%.2f), back right (%.2f)",
+                    //frontleftPower, frontrightPower, backleftPower, backrightPower);
 
+            telemetry.addData("Slide Position", liftPosition);
             telemetry.update();
         }
         
     }
-    public void liftEncoderReset() {
-        slideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        slideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        slideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    }
 
-    public void liftEncoderRise(int Inches, double timeout) {
-        int newSlideTarget;
-
-        if (opModeIsActive()) {
-            newSlideTarget = slideLeft.getCurrentPosition() + (int)(Inches * COUNT_UP_PER_INCH);
-            slideLeft.setTargetPosition(-newSlideTarget);
-            slideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            runtime.reset();
-            slideLeft.setPower(-0.5);
-
-            while (opModeIsActive() && (runtime.seconds() < timeout) && slideLeft.isBusy()) {};
-
-            slideLeft.setPower(0);
-            slideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
-    }
 }
